@@ -1,7 +1,4 @@
-// const { NativeBuffer } = require('mongoose');
 const Item = require('./../models/itemModel');
-// const FilterFeatures = require('./../utils/filterFeatures');
-// const AppError = require('./../utils/appError');
 const handlerFactory = require('./handlerFactoty');
 
 exports.getAllItems = handlerFactory.getAll(Item);
