@@ -60,7 +60,7 @@ reviewSchema.statics.calculateItemsAverageRating = async function (itemId) {
   if (averageRatings.length > 0) {
     await Item.findByIdAndUpdate(itemId, {
       numberOfRatings: averageRatings[0].nRating,
-      itemAverageRating: averageRatings[0].avgRating,
+      itemAverageRating: Math.round(averageRatings[0].avgRating * 10) / 10,
     });
   } else {
     await Item.findByIdAndUpdate(itemId, {
@@ -68,7 +68,6 @@ reviewSchema.statics.calculateItemsAverageRating = async function (itemId) {
       itemAverageRating: 3,
     });
   }
-  console.log(averageRatings);
 };
 
 reviewSchema.post('save', function () {

@@ -11,8 +11,13 @@ const errorHandler = require('./controllers/errorControler');
 const itemRouter = require('./routes/itemRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
+
+//seting pug template engine
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
 
 //serving static files
 app.use(express.static(path.join(__dirname, 'public')));
@@ -48,6 +53,9 @@ app.use(
     whitelist: ['itemValue'],
   })
 );
+
+//Routes
+app.use('/', viewRouter);
 
 app.use('/api/v1/items', itemRouter);
 

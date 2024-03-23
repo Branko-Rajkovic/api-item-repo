@@ -1,0 +1,39 @@
+extends base
+
+block content
+    main
+        div.grid.grid-cols-6
+            div.col-span-1 
+
+                nav
+                    ul 
+                        li: a(href='#')
+                                span Home
+                        li: a(href='#')
+                                span About
+                        li: a(href='#')
+                                span Contact
+
+            div.col-span-5
+                div.bg-grey-400.grid.grid-cols-3.gap-2
+                
+                    each item in items
+                        div.m-4.bg-white.rounded-t-2xl.overflow-hidden.relative
+                        
+                            div
+                                img.w-full(src=`img/items/${item.itemCoverImage}`, alt=`${item.itemName}`)
+                                span.text-gray-600.text-2xl= item.itemName
+
+                            div.m-2
+                                span= item.itemName
+                                span.block.comment= item.itemDescription
+
+                            div.p-2
+                                div.bg-sky-500.text-white
+                                    span.m-2= item.itemValue
+                                    span is value
+                            div.flex.justify-evenly.text-white.absolute.top-0
+                                span.p-2.bg-sky-500.rounded-full= item.itemAverageRating
+                                a.p-2(href=`/item/${item._id}`)
+                                    button.btn Details
+                            span.p-2.bg-sky-500.rounded-full= `${item.numberOfRatings} votes`

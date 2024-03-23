@@ -1,0 +1,48 @@
+extends base
+
+block content 
+    main 
+        div.grid.grid-cols-6
+            div.col-span-1 
+
+                nav
+                    ul 
+                        li: a(href='#')
+                                span Home
+                        li: a(href='#')
+                                span About
+                        li: a(href='#')
+                            span Contact
+
+            div.col-span-5.text-gray-200
+                div
+                    img(src=`/img/items/${item.itemCoverImage}`, alt=`${item.itemName}`)
+                div 
+                    h1= item.itemName
+
+                div
+                    h4= item.itemName
+                    span.block.comment= item.itemDescription
+
+                div
+                    p
+                    span= item.itemValue 
+                    span is value
+                    p
+                    span= item.itemAverageRating
+                    span= `is rating from ${item.numberOfRatings} votes`
+                    a(href=`/items/${item._id}`) Details
+
+        div    
+            div.flex.justify-evenly
+                each itemImage in item.itemOtherImages
+                    div(class="w-1/4 p-4")
+                        img(src=`/img/items/${itemImage}`, alt=`${item.itemOtherImages}`)     
+        
+        div
+            div 
+                each review in reviews 
+                    div
+                        span.block.comment= review.review  
+                        span= review.createdFromUser.name 
+                        img.border-4(src=`/img/users/${review.createdFromUser.photo}`, alt=`${item.itemOtherImages}`)                    

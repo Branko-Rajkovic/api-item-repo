@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.btn {
+  @apply bg-lime-500 border-2 border-lime-700 hover:bg-lime-700  mx-4 p-2 rounded-full text-gray-100 font-bold cursor-pointer;
+}
+.comment {
+  @apply bg-white text-gray-600 border-y-4 border-slate-400;
+}
