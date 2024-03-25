@@ -1,21 +1,20 @@
 header.m-8.p-4
-    div.flex.justify-evenly
-        h1.text-4xl.m-4 Items title
-        div
-            a(href='#') All Items
-            button
-        div
-            img(src='/img/universe.png' alt='logo')
+    div.flex.justify-start    
+        img.w-16.h-16(src='/img/universe.png' alt='logo')
+        h2.text-4xl.m-4 Items title
     div.flex.justify-end
-        button.btn Log in
-        button.btn Sign up
+        if user
+            a.btn#logoutBtn Log out
+            img.border-4(src=`/img/users/${user.photo}`, alt='user photo')
+            h3.text-lime-300.font-bold= user.name
+        else
+            a.btn(href='/login') Log in
+            a.btn(href='/signin') Sign in!
 
-    div
-        nav.flex.justify-evenly 
-            ul 
-                li: a(href='#')
-                    span Home
-                li: a(href='#')
-                    span About
-                li: a(href='#')
-                    span Contact
+    div.m-4
+        nav.flex.justify-start
+            a.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer(href='#') All items
+            a.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer(href='/') Home   
+            a.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer(href='#') Contact          
+            a.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer(href='#') About
+                

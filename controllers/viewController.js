@@ -1,5 +1,6 @@
 const Item = require('./../models/itemModel');
 const Review = require('./../models/reviewModel');
+const AppError = require('./../utils/appError');
 
 exports.getOverview = async (req, res, next) => {
   try {
@@ -9,7 +10,7 @@ exports.getOverview = async (req, res, next) => {
       items,
     });
   } catch (err) {
-    next(err);
+    next(new AppError('Something went wrong', 500));
   }
 };
 
@@ -24,6 +25,26 @@ exports.getItem = async (req, res, next) => {
       reviews,
     });
   } catch (err) {
-    next(err);
+    next(new AppError('Requested item can not be found!', 404));
+  }
+};
+
+exports.getLoginForm = (req, res, next) => {
+  try {
+    res.status(200).render('login', {
+      title: 'Log in',
+    });
+  } catch (err) {
+    next(new AppError('Something went wrong', 500));
+  }
+};
+
+exports.getSigninForm = (req, res, next) => {
+  try {
+    res.status(200).render('signin', {
+      title: 'Sign in',
+    });
+  } catch (err) {
+    next(new AppError('Something went wrong', 500));
   }
 };

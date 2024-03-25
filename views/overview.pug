@@ -2,17 +2,18 @@ extends base
 
 block content
     main
-        div.grid.grid-cols-6
+        div.mx-4.grid.grid-cols-6
             div.col-span-1 
 
                 nav
-                    ul 
-                        li: a(href='#')
-                                span Home
-                        li: a(href='#')
-                                span About
-                        li: a(href='#')
-                                span Contact
+                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
+                        a(href='#') All items
+                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
+                        a(href='/') Home   
+                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
+                        a(href='#') Contact          
+                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
+                        a(href='#') About
 
             div.col-span-5
                 div.bg-grey-400.grid.grid-cols-3.gap-2
@@ -32,7 +33,7 @@ block content
                                 div.bg-sky-500.text-white
                                     span.m-2= item.itemValue
                                     span is value
-                            div.flex.justify-evenly.text-white.absolute.top-0
+                            div.flex.justify-between.text-white.absolute.top-0
                                 span.p-2.bg-sky-500.rounded-full= item.itemAverageRating
                                 a.p-2(href=`/item/${item._id}`)
                                     button.btn Details

@@ -75,6 +75,21 @@ exports.login = async (req, res, next) => {
   }
 };
 
+exports.logout = async (req, res, next) => {
+  try {
+    res.cookie('jwt', 'loggedout', {
+      expires: new Date(Date.now() + 10000),
+      httpOnly: true,
+    });
+
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.protect = async (req, res, next) => {
   try {
     //extracting the jwt token from request headers
@@ -84,6 +99,8 @@ exports.protect = async (req, res, next) => {
       req.headers.authorization.startsWith('Bearer')
     ) {
       token = req.headers.authorization.split(' ')[1];
+    } else if (req.cookie.jwt) {
+      token = req.cookie.jwt;
     }
 
     if (!token) {
@@ -119,6 +136,36 @@ exports.protect = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+};
+
+exports.isLoggedin = async (req, res, next) => {
+  //verify token from cookie
+  if (req.cookies.jwt) {
+    try {
+      const decoded = await promisify(jwt.verify)(
+        req.cookies.jwt,
+        process.env.JWT_SECRET
+      );
+
+      //check users id from jwt token
+      const currentUser = await User.findById(decoded.id);
+      if (!currentUser) {
+        return next();
+      }
+
+      if (currentUser.isPasswordChanged(decoded.iat)) {
+        return next();
+      }
+
+      //user is loged in and we put user object in res.local.user
+      res.locals.user = currentUser;
+      return next();
+    } catch (err) {
+      return next();
+    }
+  }
+  //if there is no jwt in cookie res.local.user will not be set
+  next();
 };
 
 exports.restrictTo = (...roles) => {

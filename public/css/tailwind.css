@@ -2,8 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 .btn {
-  @apply bg-lime-500 border-2 border-lime-700 hover:bg-lime-700  mx-4 p-2 rounded-full text-gray-100 font-bold cursor-pointer;
+  @apply h-12 bg-lime-500 border-2 border-lime-700 hover:bg-lime-700  mx-4 p-2 rounded-full text-gray-100 font-bold cursor-pointer;
 }
 .comment {
   @apply bg-white text-gray-600 border-y-4 border-slate-400;
+}
+
+.form-wrapper {
+  @apply inline-block bg-white m-16 rounded-md text-center;
+}
+
+.form-title {
+  @apply text-4xl m-2 p-4 text-sky-400;
+}
+
+.form-label {
+  @apply w-1/3 text-right text-sky-400 font-bold;
+}
+
+.form-input {
+  @apply p-2 rounded border-2 border-sky-400 focus:border-sky-600;
+}
+
+.formbtn {
+  @apply px-8 text-sky-400 font-bold border-4 rounded border-sky-400 hover:bg-sky-400 hover:text-white;
+}
+
+.alert {
+  @apply absolute top-0 right-0 p-4 rounded-full font-bold text-white;
 }

@@ -38,12 +38,12 @@ const sendErrDevelopment = (err, res) => {
 
 const sendErrProduction = (err, res) => {
   if (err.isOperational) {
-    res.status(err.statusCode).json({
+    res.status(err.statusCode).render('error', {
       status: err.status,
       message: err.message,
     });
   } else {
-    res.status(500).json({
+    res.status(500).render('error', {
       status: 'error',
       message: 'Something went wrong.',
     });
@@ -57,6 +57,8 @@ const errorHandler = (err, req, res, next) => {
     sendErrDevelopment(err, res);
   } else if (process.env.NODE_ENV === 'production') {
     let prodErr = { ...err };
+    prodErr.message = err.message;
+
     if (err.name === 'CastError') {
       prodErr = handleCastErrorDB(prodErr);
     }
