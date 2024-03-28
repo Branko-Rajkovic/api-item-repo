@@ -1,12 +1,13 @@
 header.m-8.p-4
     div.flex.justify-start    
-        img.w-16.h-16(src='/img/universe.png' alt='logo')
+        img.w-20.h-20(src='/img/universe.png' alt='logo')
         h2.text-4xl.m-4 Items title
-    div.flex.justify-end
+    div.flex.justify-end.items-center
         if user
             a.btn#logoutBtn Log out
-            img.border-4(src=`/img/users/${user.photo}`, alt='user photo')
-            h3.text-lime-300.font-bold= user.name
+            a(href='/account')
+                img.w-16.h-16.border-4.rounded-full(src=`/img/users/${user.photo}`, alt='user photo')
+            h3.text-lime-500.font-bold= user.name
         else
             a.btn(href='/login') Log in
             a.btn(href='/signin') Sign in!

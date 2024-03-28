@@ -3,7 +3,7 @@ const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const AppError = require('./../utils/appError');
-const sendEmail = require('./../utils/email');
+const Email = require('./../utils/email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -46,6 +46,8 @@ exports.signup = async (req, res, next) => {
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
     });
+    const url = `${req.protocol}://${req.get('host')}/account`;
+    await new Email(newUser, url).sendWelcome();
     createAndSendToken(newUser, 201, res);
 
     //errror
@@ -99,8 +101,8 @@ exports.protect = async (req, res, next) => {
       req.headers.authorization.startsWith('Bearer')
     ) {
       token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookie.jwt) {
-      token = req.cookie.jwt;
+    } else if (req.cookies.jwt) {
+      token = req.cookies.jwt;
     }
 
     if (!token) {
@@ -131,7 +133,7 @@ exports.protect = async (req, res, next) => {
 
     //Grant access to protected route
     req.user = pendingUser;
-
+    res.locals.user = pendingUser;
     next();
   } catch (err) {
     next(err);
@@ -157,7 +159,7 @@ exports.isLoggedin = async (req, res, next) => {
         return next();
       }
 
-      //user is loged in and we put user object in res.local.user
+      //user is loged in and we put user object in res.locals.user
       res.locals.user = currentUser;
       return next();
     } catch (err) {
@@ -196,11 +198,13 @@ exports.forgotPassword = async (req, res, next) => {
 
     const message = `Forgot your password? Please send request with your new password on following address: ${resetURL}`;
     try {
-      await sendEmail({
-        email: user.email,
-        subject: 'Password reset token, valid only 5 min.',
-        message: message,
-      });
+      // await sendEmail({
+      //   email: user.email,
+      //   subject: 'Password reset token, valid only 5 min.',
+      //   message: message,
+      // });
+
+      await new Email(user, resetURL);
 
       res.status(200).json({
         status: 'success',
@@ -260,16 +264,14 @@ exports.resetPassword = async (req, res, next) => {
 
 exports.updatePassword = async (req, res, next) => {
   try {
-    //Get user
+    //Get user and check old password
     console.log(req.user);
     const user = await User.findById(req.user.id).select('+password');
-    if (
-      !(await user.correctPassword(req.body.passwordCurrent, user.password))
-    ) {
+    if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
       return next(new AppError('Password is incorrect', 401));
     }
 
-    //update password
+    //update password to new password
     user.password = req.body.password;
     user.passwordConfirm = req.body.passwordConfirm;
     await user.save();

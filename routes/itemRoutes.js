@@ -29,6 +29,8 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('item-admin', 'admin'),
+    itemController.uploadItemImages,
+    itemController.resizeItemImages,
     itemController.updateItem
   )
   .delete(

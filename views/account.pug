@@ -1,0 +1,32 @@
+extends base
+
+block content
+    main
+        div.mx-4.grid.grid-cols-6
+            .col-span-1 
+                div 
+                    a.btn(href='#') edit your account
+
+            .col-span-3 
+                div.form-wrapper
+                    h2= user.name
+                    form#updateForm
+                        div
+                            label(for='name') Name
+                            input#name(type='text', name='name', value=`${user.name}`)
+                        div
+                            label(for='email') Email address
+                            input#email(type='email', name='email', value=`${user.email}`)
+                        div
+                            img(src=`/img/users/${user.photo}`, alt='userphoto')
+                            input#photo(type='file', name='photo')
+                            label(for='photo') Change photo!
+                        div.p-4
+                            button(type='submit') Update
+                    a.btn(href='/update-password') Update passwordd
+            .col-span-2 
+                div.flex-col
+                    - if (user.role === 'admin')                         
+                        a.block.m-4.btn(href='/manage-items') manage items                         
+                        a.block.m-4.btn(href='#') manage users                         
+                        a.block.m-4.btn(href='#') manage reviews

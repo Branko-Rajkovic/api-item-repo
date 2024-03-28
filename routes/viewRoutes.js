@@ -4,14 +4,34 @@ const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
-router.use(authController.isLoggedin);
+router.get('/', authController.isLoggedin, viewController.getOverview);
 
-router.get('/', viewController.getOverview);
+router.get('/item/:id', authController.isLoggedin, viewController.getItem);
 
-router.get('/item/:id', viewController.getItem);
-
-router.get('/login', viewController.getLoginForm);
+router.get('/login', authController.isLoggedin, viewController.getLoginForm);
 
 router.get('/signin', viewController.getSigninForm);
+
+router.get('/account', authController.protect, viewController.getUserAccount);
+
+router.get(
+  '/item-update/:id',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewController.getUpdateItemPage
+);
+
+router.get(
+  '/manage-items',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewController.getAllItems
+);
+
+router.get(
+  '/update-password',
+  authController.protect,
+  viewController.getPasswordUpdatePage
+);
 
 module.exports = router;

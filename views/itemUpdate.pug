@@ -1,0 +1,31 @@
+extends base
+
+block content
+    main
+        div.mx-4.grid.grid-cols-6
+            .col-span-1 
+                div 
+                    a.btn(href='#') edit item's details
+
+            .col-span-3 
+                div.form-wrapper
+                    h2= user.name
+                    form#updateItemForm
+                        div
+                            label(for='name') Name of the item
+                            input#itemName(type='text', name='name', value=`${item.itemName}`)
+                        div
+                            label(for='email') Email address
+                            input#itemValue(type='text', name='itemValue', value=`${item.itemValue}`)
+                        div
+                            img(src=`/img/items/${item.itemCoverImage}`, alt='itemcover')
+                            input#itemCoverImage(type='file', name='itemCoverImage')
+                            label(for='itemCoverImage') Change item cover image
+                        div.p-4
+                            button(type='submit') Update
+            .col-span-2 
+                div.flex-col
+                    - if (user.role === 'admin')                         
+                        a.block.m-4.btn(href='/manage-items') manage items                         
+                        a.block.m-4.btn(href='#') manage users                         
+                        a.block.m-4.btn(href='#') manage reviews

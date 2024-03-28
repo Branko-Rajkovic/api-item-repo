@@ -23,6 +23,8 @@ router.get('/me', userController.getMe, userController.getUser);
 
 router.patch(
   '/update-me',
+  userController.uploadUserPhoto,
+  userController.resizeUserPhoto,
   authController.restrictTo('user', 'user-admin', 'admin'),
   userController.updateMe
 );
