@@ -25,9 +25,7 @@ if (updateForm) {
     formData.append('name', document.getElementById('name').value);
     formData.append('email', document.getElementById('email').value);
     formData.append('photo', document.getElementById('photo').files[0]);
-    for (let key of formData.entries()) {
-      console.log(key[0] + ', ' + key[1]);
-    }
+
     updateUserData(formData, 'data');
   });
 }

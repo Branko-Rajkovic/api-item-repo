@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const { xss } = require('express-xss-sanitizer');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const AppError = require('./utils/appError');
 const errorHandler = require('./controllers/errorControler');
 const itemRouter = require('./routes/itemRoutes');
@@ -68,6 +69,8 @@ app.use(
     whitelist: ['itemValue'],
   })
 );
+
+app.use(compression);
 
 //Routes
 app.use('/', viewRouter);

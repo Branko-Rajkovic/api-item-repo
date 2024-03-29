@@ -71,8 +71,6 @@ exports.updateMe = async (req, res, next) => {
       runValidators: true,
     });
 
-    console.log(user.name, user.email);
-
     res.status(200).json({
       status: 'success',
       data: {

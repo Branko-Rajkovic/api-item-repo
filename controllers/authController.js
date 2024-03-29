@@ -265,7 +265,6 @@ exports.resetPassword = async (req, res, next) => {
 exports.updatePassword = async (req, res, next) => {
   try {
     //Get user and check old password
-    console.log(req.user);
     const user = await User.findById(req.user.id).select('+password');
     if (!(await user.correctPassword(req.body.oldPassword, user.password))) {
       return next(new AppError('Password is incorrect', 401));
