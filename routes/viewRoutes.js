@@ -14,6 +14,8 @@ router.get('/signin', viewController.getSigninForm);
 
 router.get('/account', authController.protect, viewController.getUserAccount);
 
+router.get('/acctivation-page', viewController.getAcctivationPage);
+
 router.get(
   '/item-update/:id',
   authController.protect,

@@ -95,3 +95,10 @@ exports.getUpdateItemPage = async (req, res, next) => {
     next(new AppError('Requested item can not be found!', 404));
   }
 };
+
+exports.getAcctivationPage = async (req, res, next) => {
+  console.log(req.data);
+  res.status(200).render('acctivateAccount', {
+    status: 'success',
+  });
+};

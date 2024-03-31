@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = require('./../models/userModel');
 const AppError = require('./../utils/appError');
 const Email = require('./../utils/email');
+const sendEmail = require('./../utils/email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -42,15 +43,45 @@ exports.signup = async (req, res, next) => {
     const newUser = await User.create({
       name: req.body.name,
       email: req.body.email,
-      role: req.body.role,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
+      acctivationCode: Math.floor(Math.random() * 1000),
     });
-    const url = `${req.protocol}://${req.get('host')}/account`;
-    await new Email(newUser, url).sendWelcome();
-    createAndSendToken(newUser, 201, res);
+    console.log(newUser);
+    const emailOptions = {
+      email: newUser.email,
+      subject: 'welcome',
+      message: `welcome to open shop. Yor acctivation code is ${newUser.acctivationCode}`,
+    };
+
+    await sendEmail(emailOptions);
+
+    res.status(200).json({
+      status: 'success',
+      data: {
+        id: newUser._id,
+      },
+    });
 
     //errror
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.acctivateAccount = async (req, res, next) => {
+  try {
+    console.log('server acctivate', req.body.acctivationCode, req.body.email);
+    const code = Number(req.body.acctivationCode);
+    const user = await User.findOne({ email: `${req.body.email}` }).exec();
+    console.log(user.acctivationCode);
+    if (user.acctivationCode === code) {
+      user.active = true;
+      await user.save({ validateBeforeSave: false });
+      createAndSendToken(user, 200, res);
+    } else {
+      next(new AppError('Activation code is incorrect or expired.', 400));
+    }
   } catch (err) {
     next(err);
   }

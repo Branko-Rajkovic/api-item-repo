@@ -15,12 +15,33 @@ block content
                             label(for='name') Name of the item
                             input#itemName(type='text', name='name', value=`${item.itemName}`)
                         div
-                            label(for='email') Email address
-                            input#itemValue(type='text', name='itemValue', value=`${item.itemValue}`)
+                            label(for='itemValue') Value of the item
+                            input#itemValue(type='text', name='name', value=`${item.itemName}`)
+                        div
+                            label(for='itemDescription') Description of the item
+                            input#itemDescription(type='text', name='name', value=`${item.itemName}`)
                         div
                             img(src=`/img/items/${item.itemCoverImage}`, alt='itemcover')
                             input#itemCoverImage(type='file', name='itemCoverImage')
                             label(for='itemCoverImage') Change item cover image
+                        div
+                            img(src=`/img/items/${item.itemCoverImage}`, alt='itemcover')
+                            input#itemCoverImage(type='file', name='itemCoverImage')
+                            label(for='itemCoverImage') Change item cover image
+                        div    
+                        div.flex.justify-evenly
+                            each itemImage in item.itemOtherImages
+                                div(class="w-1/4 p-4")
+                                    img(src=`/img/items/${itemImage}`, alt=`${item.itemOtherImages}`)     
+                
+                        div
+                            div.p-8 
+                                each review in reviews 
+                                    div.flex.border-4
+                                        div
+                                            img.w-16.h-16.rounded-full(src=`/img/users/${review.createdFromUser.photo}`, alt='user photo')
+                                            span.font-bold= review.createdFromUser.name 
+                                        span.ml-4.mt-6.comment.align-middle= review.review 
                         div.p-4
                             button(type='submit') Update
             .col-span-2 

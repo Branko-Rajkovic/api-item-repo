@@ -2,29 +2,33 @@ extends base
 
 block content
     main
+
         div.mx-4.grid.grid-cols-6
             .col-span-1 
                 div 
                     a.btn(href='#') edit your account
 
-            .col-span-3 
+            .col-span-4.p-4.flex.justify-center
                 div.form-wrapper
-                    h2= user.name
-                    form#updateForm
-                        div
-                            label(for='name') Name
-                            input#name(type='text', name='name', value=`${user.name}`)
-                        div
-                            label(for='email') Email address
-                            input#email(type='email', name='email', value=`${user.email}`)
-                        div
-                            img(src=`/img/users/${user.photo}`, alt='userphoto')
-                            input#photo(type='file', name='photo')
-                            label(for='photo') Change photo!
-                        div.p-4
-                            button(type='submit') Update
-                    a.btn(href='/update-password') Update passwordd
-            .col-span-2 
+                    h2.text-xl.font-semibold.p-4= user.name
+                    form#updateForm.p-4
+                        div.flex.items-center.py-2
+                            label.form-label(for='name') Name
+                            input#name.mx-2.form-input(type='text', name='name', value=`${user.name}`)
+                        div.flex.items-center.py-2
+                            label.form-label(for='email') Email address
+                            input#email.mx-2.form-input(type='email', name='email', value=`${user.email}`)
+                        div.flex.flex-col.items-center.py-2
+                            img#currentImage.w-32.h-32.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
+                        div.flex.items-center.py-2
+                            label.form-label.mx-2(for='photo') Change photo
+                            input#photo.form-input(type='file', name='photo')
+                        div.flex.flex-col.items-center.py-2
+                            button.btn.m-2(type='submit') Update
+                    div.m-4
+                        p.font-semibold For password update click here:
+                            a.btn(href='/update-password') Update password
+            .col-span-1
                 div.flex-col
                     - if (user.role === 'admin')                         
                         a.block.m-4.btn(href='/manage-items') manage items                         

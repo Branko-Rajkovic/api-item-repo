@@ -1,38 +1,49 @@
 extends base
 
-block content 
-    main 
-        div.grid.grid-cols-6
+block content
+    main
+        div.mx-4.grid.grid-cols-6
             div.col-span-1 
+
                 nav
-                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
+                    div.px-8.py-2.bg-sky-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
                         a(href='#') All items
-                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
+                    div.px-8.py-2.bg-sky-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
                         a(href='/') Home   
-                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
+                    div.px-8.py-2.bg-sky-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
                         a(href='#') Contact          
-                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
+                    div.px-8.py-2.bg-sky-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
                         a(href='#') About
 
-            div.col-span-5.text-gray-600
-                div
-                    img(src=`/img/items/${item.itemCoverImage}`, alt=`${item.itemName}`)
-                div 
-                    h1= item.itemName
+            div.col-span-5.p-8
+                div.bg-grey-400.grid.grid-cols-3.gap-3.p-4
 
-                div
-                    h4= item.itemName
-                    span.block.comment= item.itemDescription
+                    .w-full.max-w-sm.bg-white.border.border-gray-200.rounded-lg.shadow(class='dark:bg-gray-800 dark:border-gray-700')
+                        a(href='#')
+                            img.p-8.rounded-t-lg(src=`/img/items/${item.itemCoverImage}`, alt='product image')
+                        .px-5.pb-5
+                            a(href='#')
+                                h5.text-xl.font-semibold.tracking-tight.text-gray-900(class='dark:text-white')= item.itemName
+                            .flex.items-center.mb-5(class='mt-2.5')
+                                .flex.items-center.space-x-1(class='rtl:space-x-reverse')
+                            
 
-                div
-                    
-                    span= item.itemValue 
-                    span is value
-                    
-                    span= item.itemAverageRating
-                    span= `is rating from ${item.numberOfRatings} votes`
-                    a(href=`/items/${item._id}`) Details
+                                .flex.items-center
+                                    svg.w-4.h-4.text-yellow-300.me-1(aria-hidden='true', xmlns='http://www.w3.org/2000/svg', fill='currentColor', viewBox='0 0 22 20')
+                                        path(d='M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z')
+                                    p.m-2.text-sm.font-bold.text-gray-900(class='dark:text-white')= item.itemAverageRating
+                                    span.w-1.h-1.bg-gray-500.rounded-full(class='mx-1.5 dark:bg-gray-400')
+                                    a.text-sm.font-medium.text-gray-900.underline(href='#', class='hover:no-underline dark:text-white')= `from ${item.numberOfRatings} reviews`
 
+                                span.bg-blue-100.text-blue-800.text-xs.font-semibold.rounded.ms-3(class='px-2.5 py-0.5 dark:bg-blue-200 dark:text-blue-800')= item.itemAverageRating
+                            .flex.items-center.justify-between
+                                span.text-3xl.font-bold.text-gray-900(class='dark:text-white')= item.itemValue
+                                a.text-white.bg-blue-700.font-medium.rounded-lg.text-sm.px-5.text-center(href=`/item/${item._id}`, class='hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800') Details
+                    .col-span-2.grow.p-8.flex-col.justify-
+                        p.m-2.text-sm.font-bold.text-gray-900(class='dark:text-white')= item.itemAverageRating
+                        p.text-sm.font-medium.text-gray-900.underline= `from ${item.numberOfRatings} reviews`
+                        h4.text-2xl.text-center.font-semibold= item.itemName
+                        p.text-grey-800.text-center= item.itemDescription                    
                 div    
                     div.flex.justify-evenly
                         each itemImage in item.itemOtherImages
@@ -46,4 +57,4 @@ block content
                                 div
                                     img.w-16.h-16.rounded-full(src=`/img/users/${review.createdFromUser.photo}`, alt='user photo')
                                     span.font-bold= review.createdFromUser.name 
-                                span.ml-4.mt-6.comment.align-middle= review.review                       
+                                span.ml-4.mt-6.comment.align-middle= review.review                        

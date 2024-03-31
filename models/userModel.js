@@ -49,6 +49,10 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+  acctivationCode: {
+    type: Number,
+    default: 0,
+  },
 });
 
 userSchema.pre('save', function (next) {

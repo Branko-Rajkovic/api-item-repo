@@ -1,21 +1,25 @@
-header.m-8.p-4
-    div.flex.justify-start    
-        img.w-20.h-20(src='/img/universe.png' alt='logo')
-        h2.text-4xl.m-4 Items title
-    div.flex.justify-end.items-center
-        if user
-            a.btn#logoutBtn Log out
-            a(href='/account')
-                img.w-16.h-16.border-4.rounded-full(src=`/img/users/${user.photo}`, alt='user photo')
-            h3.text-lime-500.font-bold= user.name
-        else
-            a.btn(href='/login') Log in
-            a.btn(href='/signin') Sign in!
-
-    div.m-4
-        nav.flex.justify-start
-            a.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer(href='#') All items
-            a.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer(href='/') Home   
-            a.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer(href='#') Contact          
-            a.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer(href='#') About
-                
+header
+    .m-4.relative.overflow-hidden.bg-cover.bg-no-repeat.p-12.text-center(style=`background-image: url("/img/swan_bg.jpeg"); height: 400px`)
+        .absolute.bottom-0.left-0.right-0.top-0.h-full.w-full.overflow-hidden.bg-fixed(style='background-color: rgba(200, 200, 200, 0.1)')
+            .flex.h-full.items-center.justify-center
+                .text-white
+                    h2.mb-4.text-8xl.font-semibold OpenShop
+    .flex.justify-between.mx-4.mb-4
+        .flex.items-center
+            span.px-8.py-2.bg-sky-500.text-sky-100.font-bold.border-2.border-white.cursor-pointer
+                a(href='#') All items
+            span.px-8.py-2.bg-sky-500.text-sky-100.font-bold.border-2.border-white.cursor-pointer
+                a(href='/') Home   
+            span.px-8.py-2.bg-sky-500.text-sky-100.font-bold.border-2.border-white.cursor-pointer
+                a(href='#') Contact          
+            span.px-8.py-2.bg-sky-500.text-sky-100.font-bold.border-2.border-white.cursor-pointer
+                a(href='#') About
+        .flex.items-center
+            if user
+                a.btn#logoutBtn Log out
+                a(href='/account')
+                    img.w-16.h-16.border-4.rounded-full(src=`/img/users/${user.photo}`, alt='user photo')
+                h3.text-lime-500.font-bold= user.name
+            else
+                a.btn(href='/login') Log in
+                a.btn(href='/signin') Sign in!
