@@ -42,7 +42,7 @@ const filterObj = (obj, ...allowedFields) => {
 exports.resizeUserPhoto = async (req, res, next) => {
   try {
     if (!req.file) return next();
-
+    console.log(req.file.filename);
     req.file.filename = `user-${Date.now()}.jpeg`;
     await sharp(req.file.buffer)
       .resize(200, 200)

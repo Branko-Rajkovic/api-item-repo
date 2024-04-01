@@ -16,7 +16,7 @@ header
                 a(href='#') About
         .flex.items-center
             if user
-                a.btn#logoutBtn Log out
+                a.btn#logoutBtn(href="/") Log out
                 a(href='/account')
                     img.w-16.h-16.border-4.rounded-full(src=`/img/users/${user.photo}`, alt='user photo')
                 h3.text-lime-500.font-bold= user.name

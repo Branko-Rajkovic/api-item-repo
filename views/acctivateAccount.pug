@@ -1,13 +1,13 @@
 extends base
 
 block content
-    main.h-screen.bg-sky-400
-        div.flex.justify-center
-            div.form-wrapper
-                h2.form-title Acctivate account
-                form#acctivationForm.p-2
-                    div.p-4.flex.items-center
-                        label.form-label(for='Please enter acctivation code') Name
-                        input#acctivationCode.mx-4.form-input(type='text', placeholder='••••', required)
-                    div.p-4
-                        button#acctivateBtn.m-4.formbtn Acctivate
+    section.section-form
+        div.form-wrapper
+            h2.form-title Acctivate account
+            form#acctivationForm.p-2
+                div
+                    label.form-label(for='Please enter acctivation code') Name
+                    input#acctivationCode.form-input(type='text', placeholder='••••', required)
+                div
+                    button#acctivateBtn.btn(type="submit") Acctivate
+                

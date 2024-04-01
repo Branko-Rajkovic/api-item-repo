@@ -5518,20 +5518,17 @@ var logout = exports.logout = /*#__PURE__*/function () {
           });
         case 3:
           res = _context2.sent;
-          if (res.data.status === 'success') {
-            location.reload(true);
-          }
-          _context2.next = 10;
+          _context2.next = 9;
           break;
-        case 7:
-          _context2.prev = 7;
+        case 6:
+          _context2.prev = 6;
           _context2.t0 = _context2["catch"](0);
           (0, _alerts.showAlert)('bg-red-400', 'Error while loggin out!');
-        case 10:
+        case 9:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 7]]);
+    }, _callee2, null, [[0, 6]]);
   }));
   return function logout() {
     return _ref2.apply(this, arguments);
@@ -5623,7 +5620,7 @@ var acctivation = exports.acctivation = /*#__PURE__*/function () {
           if (res.data.status === 'success') {
             (0, _alerts.showAlert)('bg-lime-400', 'Welcome.');
             window.setTimeout(function () {
-              location.assign('/');
+              location.assign('/account');
             }, 1000);
           }
           _context2.next = 14;
@@ -5832,7 +5829,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34245" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34853" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

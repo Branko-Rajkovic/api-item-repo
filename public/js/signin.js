@@ -49,7 +49,7 @@ export const acctivation = async (acctivationCode) => {
     if (res.data.status === 'success') {
       showAlert('bg-lime-400', 'Welcome.');
       window.setTimeout(() => {
-        location.assign('/');
+        location.assign('/account');
       }, 1000);
     }
   } catch (err) {

@@ -1,49 +1,34 @@
 extends base
 
 block content 
-    main 
-        div.grid.grid-cols-6
-            div.col-span-1 
-                nav
-                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
-                        a(href='#') All items
-                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
-                        a(href='/') Home   
-                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
-                        a(href='#') Contact          
-                    div.px-8.py-2.bg-lime-500.text-gray-100.font-bold.border-2.border-white.cursor-pointer
-                        a(href='#') About
 
-            div.col-span-5.text-gray-600
-                div
-                    img(src=`/img/items/${item.itemCoverImage}`, alt=`${item.itemName}`)
-                div 
-                    h1= item.itemName
-
-                div
-                    h4= item.itemName
-                    span.block.comment= item.itemDescription
-
-                div
-                    
-                    span= item.itemValue 
-                    span is value
-                    
-                    span= item.itemAverageRating
-                    span= `is rating from ${item.numberOfRatings} votes`
-                    a(href=`/items/${item._id}`) Details
-
-                div    
-                    div.flex.justify-evenly
-                        each itemImage in item.itemOtherImages
-                            div(class="w-1/4 p-4")
-                                img(src=`/img/items/${itemImage}`, alt=`${item.itemOtherImages}`)     
-                
-                div
-                    div.p-8 
-                        each review in reviews 
-                            div.flex.border-4
-                                div
-                                    img.w-16.h-16.rounded-full(src=`/img/users/${review.createdFromUser.photo}`, alt='user photo')
-                                    span.font-bold= review.createdFromUser.name 
-                                span.ml-4.mt-6.comment.align-middle= review.review
+    section.bg-gray-50(class='dark:bg-gray-900')
+        .flex.flex-col.items-center.justify-center.px-6.py-8.mx-auto(class='md:h-screen lg:py-0')
+            a.flex.items-center.mb-6.text-2xl.font-semibold.text-gray-900(href='#', class='dark:text-white')
+                img.w-8.h-8.mr-2(src='https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg', alt='logo')
+                    Flowbite
+            .w-full.bg-white.rounded-lg.shadow(class='dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700')
+                .p-6.space-y-4(class='md:space-y-6 sm:p-8')
+                    h1.text-xl.font-bold.leading-tight.tracking-tight.text-gray-900(class='md:text-2xl dark:text-white')
+                        | Create and account
+                    form.space-y-4(class='md:space-y-6', action='#')
+                        div
+                            label.block.mb-2.text-sm.font-medium.text-gray-900(for='email', class='dark:text-white') Your email
+                            input#email.bg-gray-50.border.border-gray-300.text-gray-900.rounded-lg.block.w-full(type='email', name='email', class='sm:text-sm focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500', placeholder='name@company.com', required='')
+                        div
+                            label.block.mb-2.text-sm.font-medium.text-gray-900(for='password', class='dark:text-white') Password
+                            input#password.bg-gray-50.border.border-gray-300.text-gray-900.rounded-lg.block.w-full(type='password', name='password', placeholder='••••••••', class='sm:text-sm focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500', required='')
+                        div
+                            label.block.mb-2.text-sm.font-medium.text-gray-900(for='confirm-password', class='dark:text-white') Confirm password
+                            input#confirm-password.bg-gray-50.border.border-gray-300.text-gray-900.rounded-lg.block.w-full(type='confirm-password', name='confirm-password', placeholder='••••••••', class='sm:text-sm focus:ring-primary-600 focus:border-primary-600 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500', required='')
+                        .flex.items-start
+                            .flex.items-center.h-5
+                                input#terms.w-4.h-4.border.border-gray-300.rounded.bg-gray-50(aria-describedby='terms', type='checkbox', class='focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800', required='')
+                            .ml-3.text-sm
+                                label.font-light.text-gray-500(for='terms', class='dark:text-gray-300')
+                                    | I accept the 
+                                    a.font-medium.text-primary-600(class='hover:underline dark:text-primary-500', href='#') Terms and Conditions
+                    button.w-full.text-white.bg-primary-600.font-medium.rounded-lg.text-sm.px-5.text-center(type='submit', class='hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800') Create an account
+                    p.text-sm.font-light.text-gray-500(class='dark:text-gray-400')
+                        | Already have an account? 
+                        a.font-medium.text-primary-600(href='#', class='hover:underline dark:text-primary-500') Login here

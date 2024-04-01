@@ -1,16 +1,15 @@
 extends base
 
 block content
-    main.h-screen.bg-sky-400
-        div.flex.justify-center
-            div.form-wrapper
-                h2.form-title Log into your account
-                form#loginForm.p-2
-                    div.p-4.flex.items-center
-                        label.form-label(for='email') Email address
-                        input#email.mx-4.form-input(type='email', placeholder='you@example.com', required)
-                    div.p-4.flex.items-center
-                        label.form-label(for='password') Password
-                        input#password.mx-4.form-input(type='password', placeholder='••••••••', required, minlength='8')
-                    div.p-4
-                        button.m-4.formbtn Login
+    section.section-form
+        div.form-wrapper
+            h2.form-title Log in
+            form#loginForm.space-y-4.m-4
+                div
+                    label.form-label(for='email') Email
+                    input#email.form-input(type='email', placeholder='you@example.com', required)
+                div
+                    label.form-label(for='password') Password
+                    input#password.form-input(type='password', placeholder='••••••••', required, minlength='8')
+                div
+                    button.btn(type="submit") Login
