@@ -1,25 +1,25 @@
 header
-    .m-4.relative.overflow-hidden.bg-cover.bg-no-repeat.p-12.text-center(style=`background-image: url("/img/swan_bg.jpeg"); height: 400px`)
-        .absolute.bottom-0.left-0.right-0.top-0.h-full.w-full.overflow-hidden.bg-fixed(style='background-color: rgba(200, 200, 200, 0.1)')
-            .flex.h-full.items-center.justify-center
-                .text-white
-                    h2.mb-4.text-8xl.font-semibold OpenShop
+    .flex.gap-1.w-full.p-4.items-center(style='background-image: linear-gradient(#FFA259, white);')
+        h1.font-sriracha.text-red-700 Open
+        img.my-4(src='/img/icons/oldmoviesuniverse_jnK_10.ico' alt='logo')
+        h1.font-bakbakone.text-grey-700 Shop
+
     .flex.justify-between.mx-4.mb-4
         .flex.items-center
-            span.px-8.py-2.bg-sky-500.text-sky-100.font-bold.border-2.border-white.cursor-pointer
+            span.nav-btn
                 a(href='#') All items
-            span.px-8.py-2.bg-sky-500.text-sky-100.font-bold.border-2.border-white.cursor-pointer
+            span.nav-btn
                 a(href='/') Home   
-            span.px-8.py-2.bg-sky-500.text-sky-100.font-bold.border-2.border-white.cursor-pointer
+            span.nav-btn
                 a(href='#') Contact          
-            span.px-8.py-2.bg-sky-500.text-sky-100.font-bold.border-2.border-white.cursor-pointer
+            span.nav-btn
                 a(href='#') About
         .flex.items-center
             if user
-                a.btn#logoutBtn(href="/") Log out
+                a#logoutBtn.btn(href="/") Log out
                 a(href='/account')
                     img.w-16.h-16.border-4.rounded-full(src=`/img/users/${user.photo}`, alt='user photo')
-                h3.text-lime-500.font-bold= user.name
+                span.text-sky-500.font-comfortaa= user.name
             else
                 a.btn(href='/login') Log in
                 a.btn(href='/signin') Sign in!

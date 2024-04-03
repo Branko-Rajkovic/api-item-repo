@@ -33,6 +33,10 @@ const itemSchema = new mongoose.Schema({
   },
   itemCoverImage: { type: String, default: 'default image' },
   itemOtherImages: [String],
+  itemCategory: {
+    type: String,
+    default: 'other',
+  },
   itemCreatedAt: { type: Date, default: Date.now() },
 });
 

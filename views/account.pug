@@ -2,27 +2,29 @@ extends base
 
 block content 
 
-    section.section-form
-        .flex.flex-col.items-center.justify-center.px-6.py-8.mx-auto(class='md:h-screen lg:py-0')
-            a.flex.items-center.mb-6.text-2xl.font-semibold.text-gray-900(href='#', class='dark:text-white')
-                img#accountImage.w-32.h-32.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
-                
-            .form-wrapper
-                h1.form-title
-                    | Your account
-                form#updateForm.space-y-4.m-4
-                    div
-                        label.form-label(for='name') Your name
-                        input#name.form-input(type='text', name='name', value=`${user.name}`)                        
-                    div
-                        label.form-label(for='email') Your email
-                        input#email.form-input(type='email', name='email', value=`${user.email}`)
-                    div 
-                        img#currentImage.w-32.h-32.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
-                        label.form-label(for='photo') Change your photo
-                        input#photo.form-input(type='file', name='photo')
-                    div 
-                        button.btn(type='submit') Update
-                    div.m-4
-                        span.border-4
-                            a.font-semibold(href="/update-password") Click here to change password
+    section.section-form.flex
+        aside.flex.items-center
+            .flex.m-4.flex-col
+                include _sidebar
+                +sidebar('sidebar', {name: 'Manage Items', href: '/manage-items'}, {name: 'Manage Users', href: '#'}, {name: 'Manage Reviews', heref: '#'})
+             
+        .form-wrapper
+            img#accountImage.w-20.h-20.m-4.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
+            h3
+                | Your account
+            form#updateForm.space-y-4.m-4
+                div
+                    label.form-label(for='name') Your name
+                    input#name.form-input(type='text', name='name', value=`${user.name}`)                        
+                div
+                    label.form-label(for='email') Your email
+                    input#email.form-input(type='email', name='email', value=`${user.email}`)
+                div 
+                    img#currentImage.w-32.h-32.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
+                    label.form-label(for='photo') Change your photo
+                    input#photo.form-input(type='file', name='photo')
+                div 
+                    button.btn(type='submit') Update
+                div    
+                    span.m-1.p-2.bg-white.text-xs.text-gray-800.border-2.border-grey-700.rounded(class="hover:bg-slate-500 hover:text-white md:text-base md:m-4")
+                        a.font-semibold(href='/update-password') Click here to change password
