@@ -1,0 +1,46 @@
+extends base
+
+block content
+    section.section-form
+        div.grid.grid-cols-5
+            aside.m-2.items-start.col-span-1
+                include _sidebar
+                +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
+            
+            div.col-span-2
+                button#delete-user.btn-log(type='button') click here to enable delete user
+                button#delete-final.btn-log(type='button' style='display: none;') delete selected
+                each user in users
+                    div.border-2.border-gray-700.m-1.p-1.wrap
+                        .flex 
+                            div                       
+                                p.font-semibold= user.name
+                                p= user.email
+                                p= user.role
+                            div.m-1
+                                img.w-16.h-16.border-2.border-gray-400(src=`/img/users/${user.photo}`, alt='user photo')   
+                
+                            input.mx-4(class='delete-checkbox' type='checkbox' disabled='true' id=`${user._id}`)
+
+        
+            
+            //- div.flex.w-auto.wrap        
+            //-     each item in items    
+            //-         div.form-wrapper.inline
+                    
+            //-             h3=`${item.itemName}`
+            //-             form.space-y-4.m-4
+            //-                 div
+            //-                     label.form-label(for='name') Your name
+            //-                     input#itemName.form-input(type='text', name='name', value=`${item.itemName}`)                        
+            //-                 div
+            //-                     label.form-label(for='itemValue') Value of item
+            //-                     input#itemValue.form-input(type='text', name='itemValue', value=`${item.itemValue}`)
+            //-                 div 
+            //-                     img#currentCoverImage.w-20.h-20.m-4.flex-none(src=`/img/items/${item.itemCoverImage}`, alt='item cover image')
+            //-                     label.form-label(for='coverImage') Change cover image
+            //-                     input#coverImage.form-input(type='file', name='itemCoverImage')
+            //-                 div 
+            //-                     button.btn(type='submit') Update
+                                        
+                                            

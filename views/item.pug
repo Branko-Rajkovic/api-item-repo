@@ -53,8 +53,9 @@ block content
                 div
                     div.p-8 
                         each review in reviews 
-                            div.flex.border-4
-                                div
-                                    img.w-16.h-16.rounded-full(src=`/img/users/${review.createdFromUser.photo}`, alt='user photo')
-                                    span.font-bold= review.createdFromUser.name 
-                                span.ml-4.mt-6.comment.align-middle= review.review                        
+                            if review.reviewActive
+                                div.flex.border-4
+                                    div
+                                        img.w-16.h-16.rounded-full(src=`/img/users/${review.createdFromUser.photo}`, alt='user photo')
+                                        span.font-bold= review.createdFromUser.name 
+                                    span.ml-4.mt-6.comment.align-middle= review.review                        

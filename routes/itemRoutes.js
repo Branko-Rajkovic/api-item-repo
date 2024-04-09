@@ -20,7 +20,14 @@ router
   .post(
     authController.protect,
     authController.restrictTo('item-admin', 'admin'),
+    itemController.uploadItemImages,
+    itemController.resizeItemImages,
     itemController.createItem
+  )
+  .delete(
+    authController.protect,
+    authController.restrictTo('item-admin', 'admin'),
+    itemController.deleteManyItems
   );
 
 router

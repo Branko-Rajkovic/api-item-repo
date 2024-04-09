@@ -3,11 +3,11 @@ extends base
 block content
     main
         div.mx-4.grid.grid-cols-6
-            div.col-span-1 
+            div.col-span-1.py-8 
 
                 include _sidebar
-                +sidebar("sidebar", {name: "All Items", href: "/"}, {name: "Contact", href: "#"})
-
+                +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
+            
             div.col-span-5.p-8
                 div.bg-grey-400.grid.grid-cols-3.gap-3.p-4
                 
@@ -32,4 +32,4 @@ block content
                                     span.bg-blue-100.text-blue-800.text-xs.font-semibold.rounded.ms-3(class='px-2.5 py-0.5 dark:bg-blue-200 dark:text-blue-800')= item.itemAverageRating
                                 .flex.items-center.justify-between
                                     span.text-3xl.font-bold.text-gray-900(class='dark:text-white')= item.itemValue
-                                    a.text-white.bg-lime-500.font-medium.font-semibold.rounded-r-full.text-sm.px-5.text-center(href=`/item/${item._id}`, class='hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800') Details
+                                    a.btn-lime(href=`/item/${item._id}`) Details

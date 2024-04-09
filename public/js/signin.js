@@ -6,28 +6,25 @@ function setCookie(email, path) {
   document.cookie = `email=${email};expires=${date},path=${path}`;
 }
 
-export const signin = async (name, email, password, passwordConfirm) => {
+export const signin = async (data) => {
   try {
     const res = await axios({
       method: 'POST',
       url: 'http://127.0.0.1:3000/api/v1/users/signup',
-      data: {
-        name,
-        email,
-        password,
-        passwordConfirm,
-      },
+      data,
     });
 
+    console.log(res.data.data.email);
     if (res.data.status === 'success') {
+      const email = res.data.data.email;
       setCookie(email, '/acctivation-page');
-      showAlert('bg-lime-400', 'Please acctivate account.');
+      showAlert('green', 'Please acctivate account.');
       window.setTimeout(() => {
         location.assign('/acctivation-page');
       }, 1500);
     }
   } catch (err) {
-    showAlert('bg-red-300', err.response.data.message);
+    showAlert('red', err.response.data.message);
   }
 };
 
@@ -47,12 +44,30 @@ export const acctivation = async (acctivationCode) => {
     });
 
     if (res.data.status === 'success') {
-      showAlert('bg-lime-400', 'Welcome.');
+      showAlert('green', 'Welcome.');
       window.setTimeout(() => {
         location.assign('/account');
       }, 1000);
     }
   } catch (err) {
-    showAlert('bg-red-300', err.response.data.message);
+    showAlert('red', err.response.data.message);
+  }
+};
+
+export const deleteUsers = async (usersToDelete) => {
+  try {
+    const res = await axios({
+      method: 'DELETE',
+      url: 'http://127.0.0.1:3000/api/v1/users',
+      data: {
+        usersToDelete,
+      },
+    });
+
+    if (res.data.status === 'success') {
+      showAlert('green', 'users are delteted');
+    }
+  } catch (err) {
+    showAlert('red', err.response.data.message);
   }
 };

@@ -1,8 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.btn {
-  @apply m-4 text-white bg-sky-500 font-medium rounded-lg text-sm px-5 me-2 mb-2 hover:bg-sky-800 focus:ring-4 focus:ring-blue-300 py-2.5 dark:bg-sky-600 dark:hover:bg-sky-700 focus:outline-none dark:focus:ring-blue-800;
+.btn-log {
+  @apply m-1 text-slate-800 font-comfortaa font-bold bg-slate-200 rounded-r-full text-sm px-2 hover:bg-slate-600 hover:text-slate-200 focus:ring-4 focus:ring-slate-400 py-1 dark:bg-sky-600 dark:text-slate-300 dark:hover:bg-sky-700 focus:outline-none dark:focus:ring-blue-800;
 }
 
 .comment {
@@ -14,11 +14,11 @@
 }
 
 .form-wrapper {
-  @apply flex flex-col items-center justify-center mx-8 w-auto h-auto bg-white rounded-lg shadow p-2 space-y-4 dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700;
+  @apply flex flex-col items-center justify-center mx-8 w-auto h-auto bg-white rounded-lg shadow p-1 space-y-4 dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700;
 }
 
-.nav-btn {
-  @apply m-1 px-8 py-2 font-comfortaa bg-gray-200 text-gray-600 font-bold border-2 border-gray-400 cursor-pointer hover:bg-lime-200 hover:text-lime-700;
+.nav-option {
+  @apply m-1 px-8 py-1 font-comfortaa bg-slate-600 text-slate-200 font-bold rounded-r-xl border-l-slate-400 border-l-2 cursor-pointer hover:bg-slate-400 hover:text-slate-700;
 }
 
 @layer base {
@@ -44,7 +44,7 @@
 }
 
 .form-input {
-  @apply bg-gray-50 border border-gray-300 text-medium rounded-lg block w-full sm:text-sm focus:ring-2 focus:border-lime-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
+  @apply bg-gray-50 border border-gray-300 text-medium rounded-lg block w-full sm:text-sm focus:ring-2 focus:border-lime-500 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500;
 }
 
 .formbtn {
@@ -53,4 +53,8 @@
 
 .alert {
   @apply absolute top-0 right-0 p-4 rounded-full font-bold text-white;
+}
+
+.btn-lime {
+  @apply text-white bg-lime-500 font-semibold rounded-r-full text-sm px-4 text-center hover:bg-lime-800 focus:ring-4 focus:outline-none focus:ring-blue-300 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800;
 }

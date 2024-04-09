@@ -26,6 +26,10 @@ const reviewSchema = new mongoose.Schema({
     ref: 'User',
     required: [true, 'Review must belong to a user!'],
   },
+  reviewActive: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 //sets one review per one user for one item

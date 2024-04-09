@@ -3,11 +3,13 @@ extends base
 block content 
 
     section.section-form.flex
-        aside.flex.items-center
-            .flex.m-4.flex-col
-                include _sidebar
-                +sidebar('sidebar', {name: 'Manage Items', href: '/manage-items'}, {name: 'Manage Users', href: '#'}, {name: 'Manage Reviews', heref: '#'})
-             
+
+        if (user.role === 'admin')
+            aside.flex.items-center
+                .flex.m-4.flex-col
+                    include _sidebar
+                    +sidebar('sidebar', {name: 'Manage Items', href: '/manage-items'}, {name: 'Manage Users', href: '/manage-users'}, {name: 'Manage Reviews', href: '/manage-reviews'})
+                
         .form-wrapper
             img#accountImage.w-20.h-20.m-4.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
             h3
@@ -28,3 +30,4 @@ block content
                 div    
                     span.m-1.p-2.bg-white.text-xs.text-gray-800.border-2.border-grey-700.rounded(class="hover:bg-slate-500 hover:text-white md:text-base md:m-4")
                         a.font-semibold(href='/update-password') Click here to change password
+        

@@ -1,52 +1,40 @@
 extends base
 
 block content
-    main
-        div.mx-4.grid.grid-cols-6
-            .col-span-1 
-                div 
-                    a.btn(href='#') edit item's details
 
-            .col-span-3 
-                div.form-wrapper
-                    h2= user.name
-                    form#updateItemForm
-                        div
-                            label(for='name') Name of the item
-                            input#itemName(type='text', name='name', value=`${item.itemName}`)
-                        div
-                            label(for='itemValue') Value of the item
-                            input#itemValue(type='text', name='name', value=`${item.itemName}`)
-                        div
-                            label(for='itemDescription') Description of the item
-                            input#itemDescription(type='text', name='name', value=`${item.itemName}`)
-                        div
-                            img(src=`/img/items/${item.itemCoverImage}`, alt='itemcover')
-                            input#itemCoverImage(type='file', name='itemCoverImage')
-                            label(for='itemCoverImage') Change item cover image
-                        div
-                            img(src=`/img/items/${item.itemCoverImage}`, alt='itemcover')
-                            input#itemCoverImage(type='file', name='itemCoverImage')
-                            label(for='itemCoverImage') Change item cover image
-                        div    
-                        div.flex.justify-evenly
-                            each itemImage in item.itemOtherImages
-                                div(class="w-1/4 p-4")
-                                    img(src=`/img/items/${itemImage}`, alt=`${item.itemOtherImages}`)     
+    div.form-wrapper
+        form#updateItemForm.w-auto(data-id=`${item._id}`)
+
                 
-                        div
-                            div.p-8 
-                                each review in reviews 
-                                    div.flex.border-4
-                                        div
-                                            img.w-16.h-16.rounded-full(src=`/img/users/${review.createdFromUser.photo}`, alt='user photo')
-                                            span.font-bold= review.createdFromUser.name 
-                                        span.ml-4.mt-6.comment.align-middle= review.review 
-                        div.p-4
-                            button(type='submit') Update
-            .col-span-2 
-                div.flex-col
-                    - if (user.role === 'admin')                         
-                        a.block.m-4.btn(href='/manage-items') manage items                         
-                        a.block.m-4.btn(href='#') manage users                         
-                        a.block.m-4.btn(href='#') manage reviews
+            div.p-2.rounded.border-1.border-gray-700.w-full
+        
+                div.flex.flex-col
+                    div.m-1 
+                        img.w-20.h-20.m-4.flex-none(src=`/img/items/${item.itemCoverImage}`, alt='item cover image')
+                        label.form-label(for='itemCoverImage') Change cover image
+                        input#itemCoverImage.form-input(type='file', name='itemCoverImage')
+                    div.p-1
+                        input#itemName.form-input.m-1(type='text', name='itemName', value=`${item.itemName}`)   
+                        input#itemValue.form-input.m-1(type='text', name='itemValue', value=`${item.itemValue}`)
+                        input#itemCategory.form-input.m-1(type='text', name='itemCategory', value=`${item.itemCategory}`)
+                        textarea#itemDescription.form-input.m-1(rows='4', cols='30', name='itemDescription')= item.itemDescription
+
+                    
+                    div.flex.p-1.w-auto
+                        div 
+                            img.w-20.h-20.m-4.flex-none(src=`/img/items/${item.itemOtherImages[0]}`, alt='item other image')
+                            label.form-label(for='otherImage0') Change image
+                            input#otherImage0.form-input(type='file', name='otherImage0')   
+                        div 
+                            img.w-20.h-20.m-4.flex-none(src=`/img/items/${item.itemOtherImages[1]}`, alt='item other image')
+                            label.form-label(for='otherImage1') Change image
+                            input#otherImage1.form-input(type='file', name='otherImage1')
+                        div 
+                            img.w-20.h-20.m-4.flex-none(src=`/img/items/${item.itemOtherImages[2]}`, alt='item other image')
+                            label.form-label(for='otherImage2') Change image
+                            input#otherImage2.form-input(type='file', name='otherImage2')
+
+                    div 
+                        button.btn(type='submit') Update item
+                        
+            

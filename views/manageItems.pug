@@ -1,22 +1,60 @@
 extends base
 
 block content
-    section.section-form.flex
-        aside.flex
-            .flex.m-4.flex-col.justify-start
+    section.section-form
+        div.grid.grid-cols-5
+            aside.m-2.items-start.col-span-1
                 include _sidebar
                 +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
+            
+            div.col-span-2
+                button#select-items.btn-log(type='button') click here to enable delete item
+                button#delete-items.btn-log(type='button' style='display: none;') delete selected
+                each item in items
+                    div.border-2.border-gray-700.m-1.p-1.wrap
+                        .flex 
+                            div                       
+                                p.font-semibold= item.itemName
+                                p= item.itemValue 
+                                p= item.itemDescription
+                            div.m-1
+                                img.w-16.h-16.border-2.border-gray-400(src=`/img/items/${item.itemCoverImage}`, alt='itemcover')   
+                            div.flex.justify-evenly
+                                if (item.itemOtherImages[0])
+                                    img.size-16.p-1(src=`/img/items/${item.itemOtherImages[0]}`)
+                                if (item.itemOtherImages[1])
+                                    img.size-16.p-1(src=`/img/items/${item.itemOtherImages[1]}`)
+                                if (item.itemOtherImages[2])
+                                    img.size-16.p-1(src=`/img/items/${item.itemOtherImages[2]}`) 
+                            div 
+                                input.mx-4(class='item-checkbox' type='checkbox' disabled='true' id=`${item._id}`)       
+                        div.p-2.m-1
+                            a.btn-log(href=`/item-update/${item._id}`) click here to update
 
-            div.col-span-5
-                
-                    each item in items
-                        div.m-4.bg-white.rounded.border-2.border-gray-700
-                        
-                            div
-                                img.w-24.h-24(src=`img/items/${item.itemCoverImage}`, alt=`${item.itemName}`)
-                                span.text-gray-600.text-2xl= item.itemName
-                                span.m-2= `value: ${item.itemValue}`
-                                span.m-2= `rating: ${item.itemAverageRating}`
-                                span.m-2= `${item.numberOfRatings} reviews`
-                                button.btn Update Item
-                            
+            div.col-span-2
+                div.m-4
+                    a.btn-log(href='/add-item') add new item
+                //- div.w-full.h-full
+                //-     iframe.p-2.w-full.h-full(src='' name='itemUpdate')
+        
+            
+            //- div.flex.w-auto.wrap        
+            //-     each item in items    
+            //-         div.form-wrapper.inline
+                    
+            //-             h3=`${item.itemName}`
+            //-             form.space-y-4.m-4
+            //-                 div
+            //-                     label.form-label(for='name') Your name
+            //-                     input#itemName.form-input(type='text', name='name', value=`${item.itemName}`)                        
+            //-                 div
+            //-                     label.form-label(for='itemValue') Value of item
+            //-                     input#itemValue.form-input(type='text', name='itemValue', value=`${item.itemValue}`)
+            //-                 div 
+            //-                     img#currentCoverImage.w-20.h-20.m-4.flex-none(src=`/img/items/${item.itemCoverImage}`, alt='item cover image')
+            //-                     label.form-label(for='coverImage') Change cover image
+            //-                     input#coverImage.form-input(type='file', name='itemCoverImage')
+            //-                 div 
+            //-                     button.btn(type='submit') Update
+                                        
+                                            

@@ -26,7 +26,7 @@ const multerFilter = (req, file, cb) => {
 
 const upload = multer({
   storage: multerStorage,
-  filter: multerFilter,
+  fileFilter: multerFilter,
 });
 
 exports.uploadUserPhoto = upload.single('photo');
@@ -42,14 +42,14 @@ const filterObj = (obj, ...allowedFields) => {
 exports.resizeUserPhoto = async (req, res, next) => {
   try {
     if (!req.file) return next();
-    console.log(req.file.filename);
+    console.log(req.file);
     req.file.filename = `user-${Date.now()}.jpeg`;
     await sharp(req.file.buffer)
       .resize(200, 200)
       .toFormat('jpeg')
       .jpeg({ quality: 90 })
       .toFile(`public/img/users/${req.file.filename}`);
-
+    req.body.photo = req.file.filename;
     next();
   } catch (err) {
     next(err);
@@ -85,6 +85,18 @@ exports.updateMe = async (req, res, next) => {
 exports.deleteMe = async (req, res, next) => {
   try {
     await User.findByIdAndUpdate(req.user._id, { active: false });
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteManyUsers = async (req, res, next) => {
+  try {
+    console.log(req.body.usersToDelete);
+    await User.deleteMany({ _id: { $in: req.body.usersToDelete } });
     res.status(200).json({
       status: 'success',
     });

@@ -6,7 +6,7 @@ const handlerFactory = require('./handlerFactoty');
 const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith(image)) {
+  if (file.mimetype.startsWith('image')) {
     cb(null, true);
   } else {
     cb(new AppError('File is not an image', 400, false));
@@ -19,12 +19,18 @@ const upload = multer({
 });
 
 exports.uploadItemImages = upload.fields([
-  { name: 'itemCoverImage', maxCount: 1 },
-  { name: 'itemOtherImages', maxCount: 5 },
+  { name: 'uploadedCoverImage', maxCount: 1 },
+  { name: 'otherUploadedImages', maxCount: 3 },
 ]);
 
 exports.resizeItemImages = async (req, res, next) => {
   try {
+    if (!req.files.uploadedCoverImage || !req.files.otherUploadedImages) {
+      return next();
+    }
+
+    console.log(req.files);
+    console.log(req.body.itemName);
     req.body.itemCoverImage = `item-cover-${Date.now()}.jpeg`;
 
     await sharp(req.files.uploadedCoverImage[0].buffer)
@@ -33,11 +39,11 @@ exports.resizeItemImages = async (req, res, next) => {
       .jpeg({ quality: 90 })
       .toFile(`public/img/items/${req.body.itemCoverImage}`);
 
-    req.body.itemOterImages = [];
+    req.body.itemOtherImages = [];
 
     await Promise.all(
       req.files.otherUploadedImages.map(async (image, index) => {
-        const imageName = `item-image_${index + 1}_${Date.now()}.jpg`;
+        const imageName = `item_image_${index + 1}_${Date.now()}.jpeg`;
 
         await sharp(image.buffer)
           .resize(400, 400)
@@ -50,6 +56,18 @@ exports.resizeItemImages = async (req, res, next) => {
     );
 
     next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteManyItems = async (req, res, next) => {
+  try {
+    console.log(req.body.itemsToDelete);
+    await Item.deleteMany({ _id: { $in: req.body.itemsToDelete } });
+    res.status(200).json({
+      status: 'success',
+    });
   } catch (err) {
     next(err);
   }

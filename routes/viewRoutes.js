@@ -17,6 +17,13 @@ router.get('/account', authController.protect, viewController.getUserAccount);
 router.get('/acctivation-page', viewController.getAcctivationPage);
 
 router.get(
+  '/add-item',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewController.getAddItemForm
+);
+
+router.get(
   '/item-update/:id',
   authController.protect,
   authController.restrictTo('admin'),
@@ -28,6 +35,20 @@ router.get(
   authController.protect,
   authController.restrictTo('admin'),
   viewController.getAllItems
+);
+
+router.get(
+  '/manage-users',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewController.getAllUsers
+);
+
+router.get(
+  '/manage-reviews',
+  authController.protect,
+  authController.restrictTo('admin'),
+  viewController.getAllReviews
 );
 
 router.get(

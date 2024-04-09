@@ -13,13 +13,13 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === 'success') {
-      showAlert('bg-lime-400', 'You are logged in!');
+      showAlert('green', 'You are logged in!');
       window.setTimeout(() => {
         location.assign('/');
       }, 1500);
     }
   } catch (err) {
-    showAlert('bg-red-300', err.response.data.message);
+    showAlert('red', err.response.data.message);
   }
 };
 
@@ -30,6 +30,6 @@ export const logout = async () => {
       url: 'http://127.0.0.1:3000/api/v1/users/logout',
     });
   } catch (err) {
-    showAlert('bg-red-400', 'Error while loggin out!');
+    showAlert('red', 'Error while loggin out!');
   }
 };

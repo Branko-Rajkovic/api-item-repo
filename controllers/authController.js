@@ -46,6 +46,7 @@ exports.signup = async (req, res, next) => {
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
       acctivationCode: Math.floor(Math.random() * 1000),
+      photo: req.body.photo,
     });
     console.log(newUser);
     const emailOptions = {
@@ -59,6 +60,7 @@ exports.signup = async (req, res, next) => {
     res.status(200).json({
       status: 'success',
       data: {
+        email: newUser.email,
         id: newUser._id,
       },
     });

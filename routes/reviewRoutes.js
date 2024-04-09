@@ -11,6 +11,11 @@ router
     authController.protect,
     reviewController.setUserAndItemIdInRequest,
     reviewController.createReview
+  )
+  .patch(
+    authController.protect,
+    authController.restrictTo('user-admin', 'admin'),
+    reviewController.deactivateManyReviews
   );
 
 router

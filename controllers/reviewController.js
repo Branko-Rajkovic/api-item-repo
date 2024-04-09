@@ -7,6 +7,21 @@ exports.setUserAndItemIdInRequest = (req, res, next) => {
   next();
 };
 
+exports.deactivateManyReviews = async (req, res, next) => {
+  try {
+    console.log(req.body.reviewsToDeactivate);
+    await Review.updateMany(
+      { _id: { $in: req.body.reviewsToDeactivate } },
+      { reviewActive: false }
+    );
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.getAllReviews = handlerFactory.getAll(Review);
 exports.createReview = handlerFactory.createOne(Review);
 exports.getReview = handlerFactory.getOne(Review);

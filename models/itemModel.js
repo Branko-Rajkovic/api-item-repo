@@ -31,7 +31,7 @@ const itemSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  itemCoverImage: { type: String, default: 'default image' },
+  itemCoverImage: { type: String, default: 'default.jpg' },
   itemOtherImages: [String],
   itemCategory: {
     type: String,

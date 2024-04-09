@@ -1,7 +1,6 @@
 mixin sidebar(id,...menuOptions)
-    div(id=id)
-        each menuOption in menuOptions 
-            div.nav-btn
-                a(href=menuOption.href)= menuOption.name
+    each menuOption in menuOptions 
+        div.nav-option
+            a(href=menuOption.href)= menuOption.name
 
 

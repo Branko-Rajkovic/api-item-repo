@@ -4,7 +4,7 @@ block content
     section.section-form
         div.form-wrapper
             h2.form-title Sign in!
-            form#signinForm.p-2
+            form#signinForm.p-2(enctype='multipart/form-data')
                 div
                     label.form-label(for='name') Name
                     input#signinName.form-input(type='text', placeholder='Your Name', required)
@@ -22,4 +22,4 @@ block content
                     label.form-label(for='photo') Change your photo
                     input#photo.form-input(type='file', name='photo')
                 div
-                    button#signinBtn.btn(type="submit") Sign in!
+                    button#signinBtn.btn-log(type='submit') Sign in!
