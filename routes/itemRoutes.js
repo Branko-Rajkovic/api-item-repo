@@ -27,6 +27,7 @@ router
   .delete(
     authController.protect,
     authController.restrictTo('item-admin', 'admin'),
+    itemController.deleteItemsImages,
     itemController.deleteManyItems
   );
 

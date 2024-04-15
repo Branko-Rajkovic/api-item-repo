@@ -2,6 +2,7 @@ const Review = require('./../models/reviewModel');
 const handlerFactory = require('./handlerFactoty');
 
 exports.setUserAndItemIdInRequest = (req, res, next) => {
+  console.log(req);
   if (!req.body.aboutItem) req.body.aboutItem = req.params.itemId;
   if (!req.body.createdFromUser) req.body.createdFromUser = req.user.id;
   next();

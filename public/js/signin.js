@@ -47,7 +47,7 @@ export const acctivation = async (acctivationCode) => {
       showAlert('green', 'Welcome.');
       window.setTimeout(() => {
         location.assign('/account');
-      }, 1000);
+      }, 200);
     }
   } catch (err) {
     showAlert('red', err.response.data.message);
@@ -66,6 +66,9 @@ export const deleteUsers = async (usersToDelete) => {
 
     if (res.data.status === 'success') {
       showAlert('green', 'users are delteted');
+      window.setTimeout(() => {
+        location.assign('/manage-users');
+      }, 200);
     }
   } catch (err) {
     showAlert('red', err.response.data.message);

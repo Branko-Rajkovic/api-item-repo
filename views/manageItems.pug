@@ -2,38 +2,38 @@ extends base
 
 block content
     section.section-form
-        div.grid.grid-cols-5
-            aside.m-2.items-start.col-span-1
+        div.flex.flex-wrap
+            aside.m-2.items-start
                 include _sidebar
-                +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
+                +sidebar("sidebar", {name: "Add item", href: "/add-item"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
             
-            div.col-span-2
+            div
                 button#select-items.btn-log(type='button') click here to enable delete item
                 button#delete-items.btn-log(type='button' style='display: none;') delete selected
                 each item in items
-                    div.border-2.border-gray-700.m-1.p-1.wrap
-                        .flex 
-                            div                       
+                    div.border-2.border-gray-500.m-1.p-1.wrap
+                        .flex.flex-wrap
+                            div.max-w-72                       
                                 p.font-semibold= item.itemName
                                 p= item.itemValue 
                                 p= item.itemDescription
                             div.m-1
-                                img.w-16.h-16.border-2.border-gray-400(src=`/img/items/${item.itemCoverImage}`, alt='itemcover')   
-                            div.flex.justify-evenly
+                                img.w-16.h-16.border-2.border-gray-400.m-2(src=`/img/items/${item.itemCoverImage}`, alt='itemcover')   
+                            div.flex.flex-wrap.justify-evenly
                                 if (item.itemOtherImages[0])
-                                    img.size-16.p-1(src=`/img/items/${item.itemOtherImages[0]}`)
+                                    img.size-16.m-1(src=`/img/items/${item.itemOtherImages[0]}`)
                                 if (item.itemOtherImages[1])
-                                    img.size-16.p-1(src=`/img/items/${item.itemOtherImages[1]}`)
+                                    img.size-16.m-1(src=`/img/items/${item.itemOtherImages[1]}`)
                                 if (item.itemOtherImages[2])
-                                    img.size-16.p-1(src=`/img/items/${item.itemOtherImages[2]}`) 
+                                    img.size-16.m-1(src=`/img/items/${item.itemOtherImages[2]}`) 
                             div 
                                 input.mx-4(class='item-checkbox' type='checkbox' disabled='true' id=`${item._id}`)       
                         div.p-2.m-1
                             a.btn-log(href=`/item-update/${item._id}`) click here to update
 
-            div.col-span-2
-                div.m-4
-                    a.btn-log(href='/add-item') add new item
+            //- div
+            //-     div.m-4
+            //-         a.btn-log(href='/add-item') add new item
                 //- div.w-full.h-full
                 //-     iframe.p-2.w-full.h-full(src='' name='itemUpdate')
         

@@ -33,7 +33,7 @@ const reviewSchema = new mongoose.Schema({
 });
 
 //sets one review per one user for one item
-reviewSchema.index({ aboutItem: 1, createdFromUser: 1 }, { unique: true });
+//reviewSchema.index({ aboutItem: 1, createdFromUser: 1 }, { unique: true });
 
 reviewSchema.pre(/^find/, function (next) {
   this.populate({

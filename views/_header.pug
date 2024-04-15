@@ -1,29 +1,41 @@
-header#header.p-4
+header#header.p-1(class='sm:block sm:p-4')
     .flex.gap-1.w-full.p-4.items-center.bg-white
         h1.font-sriracha.text-red-600 Open
-        img.m-1(src='/img/icons/earth_header96.png' alt='logo')
+        img.m-1.w-8.h-8(src='/img/icons/earth_header96.png' alt='logo' class='sm:w-24 sm:h-24')
         h1.font-bakbakone.text-grey-700 Shop
 
-    .flex.justify-between.mx-2
-        .flex.items-center
+   
+    .flex.justify-between.mx-2.h-16
+        .hidden(class='sm:flex items-center')
             include _sidebar
             +sidebar("sidebar", {name: "Home", href: "/"})
 
         .flex.items-center
             if user
-                span.text-sky-500.font-comfortaa= user.name
                 a(href='/account')
-                    img.w-16.h-16.border-4.rounded-full(src=`/img/users/${user.photo}`, alt='user photo')
-                a#logoutBtn.btn-log(href="/") Log out
+                    span.text-sky-500.font-comfortaa= user.name
+                a(href='/account')
+                    img.hidden.cursor-pointer(src=`/img/users/${user.photo}`, alt='user photo' class='sm:inline-block sm:w-16 sm:h-16 sm:border-4 sm:rounded-full')
+                a#logoutBtn.btn-log(href="#") Log out
             else
-                div.flex.bg-slate-600.rounded-r-full
+                div(class='sm:flex items-center')
                      
-                    form#loginForm.space-y-1.m-1(style='display: block')
-                        div.flex.max-h-6                
+                    form#loginForm.space-y-1.m-1(style='display: none') 
+                        div#input-user-data.flex.max-h-16               
                             input#email.form-input.max-w-40(type='email', placeholder='you@example.com', required)
                             input#password.form-input.max-w-40(type='password', placeholder='••••••••', required, minlength='8')
-                            button.btn-log(type="submit") Login
-                            a.btn-log(href='/signin') or Sign in
+                            
+                            button.btn-log(type='submit') Login
+                    button#login-btn.btn-log(type='button' style='display: block') Login
+                    span.hidden(class='sm:inline') Dont have an accont?
+                    a.btn-log.max-h-16(href='/signin') Sign in
                 div
                     //- a.btn-log(href='/login') Log in!
                     //- a.btn-log(href='/signin') Sign in!
+    
+    div#hamburger-menu.fixed(class='sm:hidden')
+        div.flex.justify-start
+            button#hamburger-button.w-8.h-8.bg-amber-300(type='button')  &#x2630; 
+        div#hamburger-links.bg-amber-300.w-fit(style='display: none')
+            include _sidebar
+            +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})

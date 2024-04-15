@@ -10,27 +10,27 @@ block content
                 div.flex.flex-col
                     div.m-1 
                         img#coverImage.w-20.h-20.m-4.flex-none(src='/img/items/default.jpg', alt='item other image')
-                        label.form-label(for='itemCoverImage') Change cover image
+                        label.form-label(for='itemCoverImage') Add cover image
                         input#itemCoverImage.form-input(type='file', name='itemCoverImage')
                     div.p-1
-                        input#itemName.form-input.m-1(type='text', name='itemName', value='add name')   
-                        input#itemValue.form-input.m-1(type='text', name='itemValue', value='add value')
-                        input#itemCategory.form-input.m-1(type='text', name='itemCategory', value='add category')
+                        input#itemName.form-input.m-1(type='text', name='itemName', placeholder='add name')   
+                        input#itemValue.form-input.m-1(type='text', name='itemValue', placeholder='add value')
+                        input#itemCategory.form-input.m-1(type='text', name='itemCategory', placeholder='add category')
                         textarea#itemDescription.form-input.m-1(rows='4', cols='30', name='itemDescription', placeholder='add description')
 
                     
                     div.flex.p-1.w-auto
                         div 
                             img#itemImage0.w-20.h-20.m-4.flex-none(src='/img/items/default.jpg', alt='item other image')
-                            label.form-label(for='otherImage0') Change image
+                            label.form-label(for='otherImage0') Add image
                             input#otherImage0.form-input(type='file', name='otherImage0')   
                         div 
                             img#itemImage1.w-20.h-20.m-4.flex-none(src='/img/items/default.jpg', alt='item other image')
-                            label.form-label(for='otherImage1') Change image
+                            label.form-label(for='otherImage1') Add image
                             input#otherImage1.form-input(type='file', name='otherImage1')
                         div 
                             img#itemImage2.w-20.h-20.m-4.flex-none(src='/img/items/default.jpg', alt='item other image')
-                            label.form-label(for='otherImage2') Change image
+                            label.form-label(for='otherImage2') Add image
                             input#otherImage2.form-input(type='file', name='otherImage2')
                         div 
                             label.form-label(for='itemOtherImages') add 3 more images

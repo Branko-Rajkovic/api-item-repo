@@ -11,6 +11,9 @@ export const addItem = async (data) => {
 
     if (res.data.status === 'success') {
       showAlert('bg-lime-400', 'Item created');
+      window.setTimeout(() => {
+        location.assign('/manage-items');
+      }, 200);
     }
   } catch (err) {
     showAlert('bg-red-300', err.response.data.message);
@@ -29,6 +32,9 @@ export const removeItems = async (itemsToDelete) => {
 
     if (res.data.status === 'success') {
       showAlert('green', 'Item is removed');
+      window.setTimeout(() => {
+        location.assign('/manage-items');
+      }, 200);
     }
   } catch (err) {
     showAlert('red', err.response.data.message);

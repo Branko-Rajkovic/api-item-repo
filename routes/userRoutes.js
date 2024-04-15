@@ -52,6 +52,7 @@ router
   )
   .delete(
     authController.restrictTo('user-admin', 'admin'),
+    userController.deleteUserImage,
     userController.deleteManyUsers
   );
 

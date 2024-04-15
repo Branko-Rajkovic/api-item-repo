@@ -1,11 +1,15 @@
 import { login, logout } from './login';
 import { signin, acctivation, deleteUsers } from './signin';
 import { updateUserData } from './updateUserData';
+import { addRecord } from './addRecord';
+import { updateReccord } from './updateReccord';
+import { deleteReccords } from './deleteReccord';
 import { addItem, removeItems } from './addItem';
 import { updateItem } from './updateItem';
-import { deactivateReviews } from './deactivate';
+import { deactivateReviews, addReview } from './deactivate';
 
 const loginForm = document.getElementById('loginForm');
+const loginBtn = document.getElementById('login-btn');
 const logoutBtn = document.getElementById('logoutBtn');
 const updateForm = document.getElementById('updateForm');
 const signinForm = document.getElementById('signinForm');
@@ -17,7 +21,24 @@ const updateItemForm = document.getElementById('updateItemForm');
 const deleteUser = document.getElementById('delete-user');
 const selectReviews = document.getElementById('select-reviews');
 const selectItems = document.getElementById('select-items');
+const hamburgerBtn = document.getElementById('hamburger-button');
+const userReview = document.getElementById('userReview');
 
+if (hamburgerBtn) {
+  hamburgerBtn.addEventListener('click', (event) => {
+    document.getElementById('hamburger-links').style.display =
+      document.getElementById('hamburger-links').style.display === 'none'
+        ? 'block'
+        : 'none';
+  });
+}
+
+if (loginBtn) {
+  loginBtn.addEventListener('click', (event) => {
+    loginForm.style.setProperty('display', 'block');
+    loginBtn.style.setProperty('display', 'none');
+  });
+}
 if (loginForm) {
   loginForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -95,7 +116,7 @@ if (signinForm) {
       console.log(key);
     }
 
-    await signin(formData);
+    await addRecord('users/signup', formData);
   });
 }
 
@@ -126,7 +147,7 @@ if (deleteUser) {
           deletedUsersIds.push(deleteCheckboxes[i].id);
         }
       }
-      deleteUsers(deletedUsersIds);
+      deleteReccords('users', deletedUsersIds);
     });
   });
 }
@@ -148,6 +169,7 @@ if (addItemForm) {
   addItemForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData();
+    let otherImagesFlag = 0b000;
     formData.append('itemName', document.getElementById('itemName').value);
     formData.append('itemValue', document.getElementById('itemValue').value);
     formData.append(
@@ -163,12 +185,40 @@ if (addItemForm) {
       document.getElementById('itemCoverImage').files[0]
     );
 
-    const itemOtherImages = document.getElementById(
-      'otherUploadedImages'
-    ).files;
-    for (let i = 0; i < itemOtherImages.length; i++) {
-      formData.append('otherUploadedImages', itemOtherImages[i]);
+    if (document.getElementById('otherImage0').files[0]) {
+      formData.append(
+        'otherUploadedImages',
+        document.getElementById('otherImage0').files[0]
+      );
+
+      otherImagesFlag |= 0b001;
     }
+
+    if (document.getElementById('otherImage1').files[0]) {
+      formData.append(
+        'otherUploadedImages',
+        document.getElementById('otherImage1').files[0]
+      );
+
+      otherImagesFlag |= 0b010;
+    }
+
+    if (document.getElementById('otherImage2').files[0]) {
+      formData.append(
+        'otherUploadedImages',
+        document.getElementById('otherImage2').files[0]
+      );
+
+      otherImagesFlag |= 0b100;
+    }
+
+    formData.append('otherImagesFlag', otherImagesFlag);
+    // const itemOtherImages = document.getElementById(
+    //   'otherUploadedImages'
+    // ).files;
+    // for (let i = 0; i < itemOtherImages.length; i++) {
+    //   formData.append('otherUploadedImages', itemOtherImages[i]);
+    // }
 
     for (const value of formData.values()) {
       console.log(value);
@@ -177,7 +227,7 @@ if (addItemForm) {
       console.log(key);
     }
 
-    addItem(formData);
+    addRecord('items', formData);
   });
 }
 
@@ -197,6 +247,8 @@ if (updateItemForm) {
     const id = updateItemForm.dataset.id;
     console.log(id);
     const formData = new FormData();
+    const changeOtherImages = [];
+    let otherImagesFlag = 0b000;
     formData.append('itemName', document.getElementById('itemName').value);
     formData.append('itemValue', document.getElementById('itemValue').value);
     formData.append(
@@ -214,19 +266,34 @@ if (updateItemForm) {
     // const otherImg0 = document.getElementById("itemImage0").files[0];
     // const otherImg1 = document.getElementById("itemImage1").files[0];
     // const otherImg2 = document.getElementById("itemImage2").files[0];
+    if (document.getElementById('otherImage0').files[0]) {
+      formData.append(
+        'otherUploadedImages',
+        document.getElementById('otherImage0').files[0]
+      );
+      changeOtherImages.push(true);
+      otherImagesFlag |= 0b001;
+    }
 
-    formData.append(
-      'otherUploadedImages',
-      document.getElementById('otherImage0').files[0]
-    );
-    formData.append(
-      'otherUploadedImages',
-      document.getElementById('otherImage1').files[0]
-    );
-    formData.append(
-      'otherUploadedImages',
-      document.getElementById('otherImage2').files[0]
-    );
+    if (document.getElementById('otherImage1').files[0]) {
+      formData.append(
+        'otherUploadedImages',
+        document.getElementById('otherImage1').files[0]
+      );
+      changeOtherImages.push(true);
+      otherImagesFlag |= 0b010;
+    }
+
+    if (document.getElementById('otherImage2').files[0]) {
+      formData.append(
+        'otherUploadedImages',
+        document.getElementById('otherImage2').files[0]
+      );
+      changeOtherImages.push(true);
+      otherImagesFlag |= 0b100;
+    }
+
+    formData.append('otherImagesFlag', otherImagesFlag);
     // const itemOtherImages = document.getElementById('otherUploadedImages').files;
     // for (let i = 0; i < itemOtherImages.length; i++) {
     //   formData.append('otherUploadedImages', itemOtherImages[i]);
@@ -238,8 +305,32 @@ if (updateItemForm) {
     for (const key of formData.keys()) {
       console.log(key);
     }
+    console.log(otherImagesFlag);
+    updateReccord('items', formData, id);
+  });
+}
 
-    updateItem(formData, id);
+if (userReview) {
+  userReview.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    const reviewInput = document.getElementById('leftReview');
+
+    formData.append('aboutItem', reviewInput.dataset.item);
+    formData.append('createdFromUser', reviewInput.dataset.user);
+    formData.append('review', reviewInput.value);
+    // const review = document.getElementById('leftReview').value;
+    // const aboutItem = document.getElementById('leftReview').dataset.item;
+    // const createdFromUser = document.getElementById('leftReview').dataset.user;
+    // console.log(review, aboutItem, createdFromUser);
+    // for (const value of formData.values()) {
+    //   console.log(value, typeof value);
+    // }
+    // for (const key of formData.keys()) {
+    //   console.log(key);
+    // }
+    //const data = { review, aboutItem, createdFromUser };
+    addRecord('reviews', formData);
   });
 }
 
@@ -285,7 +376,7 @@ if (selectItems) {
           deletedItemsIds.push(itemCheckboxes[i].id);
         }
       }
-      removeItems(deletedItemsIds);
+      deleteReccords('items', deletedItemsIds);
     });
   });
 }

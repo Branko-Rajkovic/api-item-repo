@@ -16,7 +16,7 @@ export const login = async (email, password) => {
       showAlert('green', 'You are logged in!');
       window.setTimeout(() => {
         location.assign('/');
-      }, 1500);
+      }, 500);
     }
   } catch (err) {
     showAlert('red', err.response.data.message);
@@ -29,6 +29,13 @@ export const logout = async () => {
       method: 'GET',
       url: 'http://127.0.0.1:3000/api/v1/users/logout',
     });
+
+    if (res.data.status === 'success') {
+      showAlert('green', 'You are logged out!');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 500);
+    }
   } catch (err) {
     showAlert('red', 'Error while loggin out!');
   }

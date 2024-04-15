@@ -1,3 +1,4 @@
+const fs = require('fs');
 const multer = require('multer');
 const sharp = require('sharp');
 const User = require('./../models/userModel');
@@ -41,7 +42,10 @@ const filterObj = (obj, ...allowedFields) => {
 
 exports.resizeUserPhoto = async (req, res, next) => {
   try {
-    if (!req.file) return next();
+    if (!req.file) {
+      req.body.photo = 'default.jpg';
+      return next();
+    }
     console.log(req.file);
     req.file.filename = `user-${Date.now()}.jpeg`;
     await sharp(req.file.buffer)
@@ -95,11 +99,30 @@ exports.deleteMe = async (req, res, next) => {
 
 exports.deleteManyUsers = async (req, res, next) => {
   try {
-    console.log(req.body.usersToDelete);
-    await User.deleteMany({ _id: { $in: req.body.usersToDelete } });
+    console.log(req.body.reccordsToDelete);
+    await User.deleteMany({ _id: { $in: req.body.reccordsToDelete } });
     res.status(200).json({
       status: 'success',
     });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteUserImage = async (req, res, next) => {
+  try {
+    const deletedUsers = await User.find({
+      _id: { $in: req.body.reccordsToDelete },
+    });
+    for (let i = 0; i < deletedUsers.length; i++) {
+      console.log(deletedUsers[i].photo);
+      if (deletedUsers[i].photo !== 'default.jpg')
+        fs.unlink(`./public/img/users/${deletedUsers[i].photo}`, (err) => {
+          if (err) console.log(err);
+          console.log(`./public/img/users/${deletedUsers[i].photo} is deleted`);
+        });
+    }
+    next();
   } catch (err) {
     next(err);
   }

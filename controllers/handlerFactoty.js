@@ -53,17 +53,18 @@ exports.updateOne = (Model) => {
 };
 
 exports.createOne = (Model) => {
-  return (exports.createItem = async (req, res, next) => {
+  return async (req, res, next) => {
     try {
+      console.log(req.body);
       const newDocument = await Model.create(req.body);
       res.status(201).json({
         status: 'success',
-        data: { item: newDocument },
+        data: { newDocument },
       });
     } catch (err) {
       next(err);
     }
-  });
+  };
 };
 
 exports.getOne = (Model) => {

@@ -1,7 +1,7 @@
 extends base
 
 block content
-    section.section-form
+    section.flex.flex-wrap.section-form
         div.form-wrapper
             h2.form-title Acctivate account
             form#acctivationForm.p-2
@@ -10,4 +10,5 @@ block content
                     input#acctivationCode.form-input(type='text', placeholder='••••', required)
                 div
                     button#acctivateBtn.btn-log(type="submit") Acctivate
-                
+        div 
+            span We have sent yuo verification code via email. Please enter the code and press "Acctivate" button 

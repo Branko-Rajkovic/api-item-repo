@@ -18,7 +18,7 @@ const itemSchema = new mongoose.Schema({
   itemDescription: {
     type: String,
     required: [true, 'An item must have a description!'],
-    maxlength: [150, 'A description can not have more than 300 characters!'],
+    maxlength: [1000, 'A description can not have more than 1000 characters!'],
     minlength: [3, 'A description can not have less than 10 characters!'],
   },
   itemAverageRating: {
