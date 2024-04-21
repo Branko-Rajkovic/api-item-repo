@@ -5,6 +5,10 @@
   @apply m-1 text-slate-800 font-comfortaa font-bold bg-slate-200 rounded-r-full text-sm px-2 hover:bg-slate-600 hover:text-slate-200 focus:ring-4 focus:ring-slate-400 py-1 dark:bg-sky-600 dark:text-slate-300 dark:hover:bg-sky-700 focus:outline-none dark:focus:ring-blue-800;
 }
 
+.btn-red {
+  @apply px-2 py-1 text-slate-100 font-comfortaa font-bold bg-red-500 rounded-r-full text-sm hover:bg-red-700 focus:ring-4 focus:ring-red-500;
+}
+
 .comment {
   @apply bg-white text-gray-600;
 }
