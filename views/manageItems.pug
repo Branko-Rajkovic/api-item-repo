@@ -8,10 +8,10 @@ block content
                 +sidebar("sidebar", {name: "Add item", href: "/add-item"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
             
             div
-                button#select-items.btn-log(type='button') click here to enable delete item
-                button#delete-items.btn-log(type='button' style='display: none;') delete selected
+                
                 each item in items
-                    div.border-2.border-gray-500.m-1.p-1.wrap
+                    - const activeColor = item.active ? '' : 'bg-slate-500 text-slate-300'
+                    div.border-2.border-gray-500.m-1.p-1.wrap(class=`${activeColor}`)
                         .flex.flex-wrap
                             div.max-w-72                       
                                 p.font-semibold= item.itemName
@@ -27,10 +27,17 @@ block content
                                 if (item.itemOtherImages[2])
                                     img.size-16.m-1(src=`/img/items/${item.itemOtherImages[2]}`) 
                             div 
-                                input.mx-4(class='item-checkbox' type='checkbox' disabled='true' id=`${item._id}`)       
+                                input.mx-4(class='items-checkbox' type='checkbox' id=`${item._id}`)       
                         div.p-2.m-1
                             a.btn-log(href=`/item-update/${item._id}`) click here to update
-
+            div.w-auto
+                div.hidden.fixed(class='sm:inline-block')
+                    button#disable-items.btn-log.my-8(type='button') Disable selected
+                    button#enable-items.btn-log.my-8(type='button') Activate selected
+                    div
+                        button#enable-items-delete.btn-log.mx-4(type='button') Enable delete
+                        button#delete-items-final.btn-log.my-8(type='button' style='display: none;') Delete selected
+                    div#select-warrning.text-bold.text-red-500.m-8
             //- div
             //-     div.m-4
             //-         a.btn-log(href='/add-item') add new item

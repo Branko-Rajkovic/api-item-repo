@@ -15,27 +15,28 @@ header#header.p-1(class='sm:block sm:p-4')
                 a(href='/account')
                     span.text-sky-500.font-comfortaa= user.name
                 a(href='/account')
-                    img.hidden.cursor-pointer(src=`/img/users/${user.photo}`, alt='user photo' class='sm:inline-block sm:w-16 sm:h-16 sm:border-4 sm:rounded-full')
+                    img.hidden.cursor-pointer.aspect-auto(src=`/img/users/${user.photo}`, alt='user photo' class='sm:inline-block sm:w-16 sm:border-4 sm:rounded-full')
                 a#logoutBtn.btn-log(href="#") Log out
             else
                 div(class='sm:flex items-center')
                      
-                    form#loginForm.space-y-1.m-1(style='display: none') 
+                    form#loginForm.space-y-1.m-1(style='display: none')
                         div#input-user-data.flex.max-h-16               
                             input#email.form-input.max-w-40(type='email', placeholder='you@example.com', required)
-                            input#password.form-input.max-w-40(type='password', placeholder='••••••••', required, minlength='8')
-                            
+                            input#password.form-input.max-w-40(type='password', placeholder='••••••••', required, minlength='8')    
                             button.btn-log(type='submit') Login
+                        div#try-again.w-full.flex.items-right(style='display: none')
+                            span Incorrect password or email
+                            button#forgot-password-btn.btn-log(type='button') Forgot password?  
                     button#login-btn.btn-log(type='button' style='display: block') Login
-                    span.hidden(class='sm:inline') Dont have an accont?
+                    span.hidden(class='sm:inline') or
                     a.btn-log.max-h-16(href='/signin') Sign in
-                div
-                    //- a.btn-log(href='/login') Log in!
-                    //- a.btn-log(href='/signin') Sign in!
-    
-    div#hamburger-menu.fixed(class='sm:hidden')
-        div.flex.justify-start
-            button#hamburger-button.w-8.h-8.bg-amber-300(type='button')  &#x2630; 
-        div#hamburger-links.bg-amber-300.w-fit(style='display: none')
-            include _sidebar
-            +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
+       
+    include hamburger
+    +hamburger({name: 'Home', href: '/'},{name: 'Account', href: '/account'})
+    //- div#hamburger-menu.fixed(class='sm:hidden')
+    //-     div.flex.justify-start
+    //-         button#hamburger-button.w-8.h-8.bg-amber-300(type='button')  &#x2630; 
+    //-     div#hamburger-links.bg-amber-300.w-fit(style='display: none')
+    //-         include _sidebar
+    //-         +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})

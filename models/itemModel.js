@@ -37,6 +37,10 @@ const itemSchema = new mongoose.Schema({
     type: String,
     default: 'other',
   },
+  active: {
+    type: Boolean,
+    default: true,
+  },
   itemCreatedAt: { type: Date, default: Date.now() },
 });
 

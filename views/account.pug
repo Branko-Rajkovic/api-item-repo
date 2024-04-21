@@ -11,7 +11,7 @@ block content
                     +sidebar('sidebar', {name: 'Manage Items', href: '/manage-items'}, {name: 'Manage Users', href: '/manage-users'}, {name: 'Manage Reviews', href: '/manage-reviews'})
                 
         .form-wrapper
-            img#accountImage.w-20.h-20.m-4.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
+            img#accountImage.w-20.aspect-auto.m-4.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
             h3
                 | Your account
             form#updateForm.space-y-4.m-4
@@ -22,7 +22,7 @@ block content
                     label.form-label(for='email') Your email
                     input#email.form-input(type='email', name='email', value=`${user.email}`)
                 div 
-                    img#currentImage.w-32.h-32.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
+                    img#currentImage.w-32.aspect-auto.flex-none.rounded-full(src=`/img/users/${user.photo}`, alt='userphoto')
                     label.form-label(for='photo') Change your photo
                     input#photo.form-input(type='file', name='photo')
                 div 

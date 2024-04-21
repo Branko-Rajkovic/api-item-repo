@@ -12,10 +12,25 @@ router
     reviewController.setUserAndItemIdInRequest,
     reviewController.createReview
   )
+  .delete(
+    authController.protect,
+    authController.restrictTo('user-admin', 'admin'),
+    reviewController.deleteManyReviews
+  );
+router
+  .route('/deacctivate')
   .patch(
     authController.protect,
     authController.restrictTo('user-admin', 'admin'),
-    reviewController.deactivateManyReviews
+    reviewController.deacctivateManyReviews
+  );
+
+router
+  .route('/acctivate')
+  .patch(
+    authController.protect,
+    authController.restrictTo('user-admin', 'admin'),
+    reviewController.acctivateManyReviews
   );
 
 router

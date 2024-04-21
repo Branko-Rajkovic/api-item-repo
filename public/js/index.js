@@ -1,12 +1,13 @@
+import axios from 'axios';
 import { login, logout } from './login';
-import { signin, acctivation, deleteUsers } from './signin';
 import { updateUserData } from './updateUserData';
-import { addRecord } from './addRecord';
+import { addReccord, acctivation, forgotPassword } from './addReccord';
 import { updateReccord } from './updateReccord';
-import { deleteReccords } from './deleteReccord';
-import { addItem, removeItems } from './addItem';
-import { updateItem } from './updateItem';
-import { deactivateReviews, addReview } from './deactivate';
+import {
+  appendImagesToFormData,
+  appendInputValueFields,
+} from './appendToFormData';
+import { selectAndDischarge } from './selectToDelete';
 
 const loginForm = document.getElementById('loginForm');
 const loginBtn = document.getElementById('login-btn');
@@ -18,11 +19,33 @@ const updatePasswordForm = document.getElementById('passwordForm');
 const currentImage = document.getElementById('currentImage');
 const addItemForm = document.getElementById('addItemForm');
 const updateItemForm = document.getElementById('updateItemForm');
-const deleteUser = document.getElementById('delete-user');
 const selectReviews = document.getElementById('select-reviews');
-const selectItems = document.getElementById('select-items');
+const disableUsersBtn = document.getElementById('disable-users');
+const enableUsersBtn = document.getElementById('enable-users');
+const enableUsersDeleteBtn = document.getElementById('enable-users-delete');
+const disableItemsBtn = document.getElementById('disable-items');
+const enableItemsBtn = document.getElementById('enable-items');
+const enableItemsDeleteBtn = document.getElementById('enable-items-delete');
+const disableReviewsBtn = document.getElementById('disable-reviews');
+const enableReviewsBtn = document.getElementById('enable-reviews');
+const enableReviewsDeleteBtn = document.getElementById('enable-reviews-delete');
 const hamburgerBtn = document.getElementById('hamburger-button');
 const userReview = document.getElementById('userReview');
+const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (err) => {
+    if (err.response && err.message === 'Request failed with status code 401') {
+      document.getElementById('try-again').style.display = 'inline-block';
+      return Promise.reject(err);
+    }
+    // Handle other errors here
+    return Promise.reject(err);
+  }
+);
 
 if (hamburgerBtn) {
   hamburgerBtn.addEventListener('click', (event) => {
@@ -54,7 +77,6 @@ if (updateForm) {
   updateForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData();
-
     formData.append('name', document.getElementById('name').value);
     formData.append('email', document.getElementById('email').value);
     formData.append('photo', document.getElementById('photo').files[0]);
@@ -83,40 +105,28 @@ if (updatePasswordForm) {
   });
 }
 
+if (forgotPasswordBtn) {
+  forgotPasswordBtn.addEventListener('click', (event) => {
+    const email = document.getElementById('email').value;
+    forgotPassword(email);
+  });
+}
+
 if (signinForm) {
   signinForm.addEventListener('submit', async (event) => {
     event.preventDefault();
     document.getElementById('signinBtn').textContent = 'signin in...';
-    // const signinName = document.getElementById('signinName').value;
-    // const signinEmail = document.getElementById('signinEmail').value;
-    // const signinPassword = document.getElementById('signinPassword').value;
-    // const signinPasswordConfirm = document.getElementById(
-    //   'signinPasswordConfirm'
-    // ).value;
-    // const photo = document.getElementById('photo').files[0];
-
     const formData = new FormData();
+    appendInputValueFields(formData, [
+      { name: 'signinName' },
+      { email: 'signinEmail' },
+      { password: 'signinPassword' },
+      { passwordConfirm: 'signinPasswordConfirm' },
+    ]);
 
-    formData.append('name', document.getElementById('signinName').value);
-    formData.append('email', document.getElementById('signinEmail').value);
-    formData.append(
-      'password',
-      document.getElementById('signinPassword').value
-    );
-    formData.append(
-      'passwordConfirm',
-      document.getElementById('signinPasswordConfirm').value
-    );
     formData.append('photo', document.getElementById('photo').files[0]);
 
-    for (const value of formData.values()) {
-      console.log(value);
-    }
-    for (const key of formData.keys()) {
-      console.log(key);
-    }
-
-    await addRecord('users/signup', formData);
+    await addReccord('users/signup', formData);
   });
 }
 
@@ -130,25 +140,75 @@ if (acctivationForm) {
   });
 }
 
-if (deleteUser) {
-  const deleteFinal = document.getElementById('delete-final');
-  deleteUser.addEventListener('click', (event) => {
-    const deleteCheckboxes = document.getElementsByClassName('delete-checkbox');
-    for (let i = 0; i < deleteCheckboxes.length; i++) {
-      deleteCheckboxes[i].disabled = false;
-    }
-    deleteUser.textContent = 'click to delete selected';
+if (disableUsersBtn) {
+  disableUsersBtn.addEventListener('click', function () {
+    selectAndDischarge(this, 'users', 'deacctivate');
+  });
+}
 
-    deleteFinal.style.setProperty('display', 'inline-block');
-    const deletedUsersIds = [];
-    deleteFinal.addEventListener('click', (e) => {
-      for (let i = 0; i < deleteCheckboxes.length; i++) {
-        if (deleteCheckboxes[i].checked) {
-          deletedUsersIds.push(deleteCheckboxes[i].id);
-        }
-      }
-      deleteReccords('users', deletedUsersIds);
-    });
+if (enableUsersBtn) {
+  enableUsersBtn.addEventListener('click', () => {
+    selectAndDischarge(this, 'users', 'acctivate');
+  });
+}
+
+if (enableUsersDeleteBtn) {
+  enableUsersDeleteBtn.addEventListener('click', () => {
+    const deleteUsersBtn = document.getElementById('delete-users-final');
+    deleteUsersBtn.style.display = 'inline-block';
+    if (deleteUsersBtn) {
+      deleteUsersBtn.addEventListener('click', function () {
+        selectAndDischarge(this, 'users', 'delete');
+      });
+    }
+  });
+}
+
+if (disableItemsBtn) {
+  disableItemsBtn.addEventListener('click', function () {
+    selectAndDischarge(this, 'items', 'deacctivate');
+  });
+}
+
+if (enableItemsBtn) {
+  enableItemsBtn.addEventListener('click', () => {
+    selectAndDischarge(this, 'items', 'acctivate');
+  });
+}
+
+if (enableItemsDeleteBtn) {
+  enableItemsDeleteBtn.addEventListener('click', () => {
+    const deleteItemsBtn = document.getElementById('delete-items-final');
+    deleteItemsBtn.style.display = 'inline-block';
+    if (deleteItemsBtn) {
+      deleteItemsBtn.addEventListener('click', function () {
+        selectAndDischarge(this, 'items', 'delete');
+      });
+    }
+  });
+}
+
+if (disableReviewsBtn) {
+  disableReviewsBtn.addEventListener('click', function () {
+    selectAndDischarge(this, 'reviews', 'deacctivate');
+  });
+}
+
+if (enableReviewsBtn) {
+  enableReviewsBtn.addEventListener('click', () => {
+    selectAndDischarge(this, 'reviews', 'acctivate');
+  });
+}
+
+if (enableReviewsDeleteBtn) {
+  enableReviewsDeleteBtn.addEventListener('click', () => {
+    const deleteReviewsBtn = document.getElementById('delete-reviews-final');
+    deleteReviewsBtn.style.display = 'inline-block';
+    if (deleteReviewsBtn) {
+      deleteReviewsBtn.addEventListener('click', function () {
+        selectAndDischarge(this, 'reviews', 'delete');
+      });
+    }
   });
 }
 
@@ -169,143 +229,59 @@ if (addItemForm) {
   addItemForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData();
-    let otherImagesFlag = 0b000;
-    formData.append('itemName', document.getElementById('itemName').value);
-    formData.append('itemValue', document.getElementById('itemValue').value);
-    formData.append(
-      'itemCategory',
-      document.getElementById('itemCategory').value
-    );
-    formData.append(
-      'itemDescription',
-      document.getElementById('itemDescription').value
-    );
+
+    appendInputValueFields(formData, [
+      { itemName: 'itemName' },
+      { itemValue: 'itemValue' },
+      { itemCategory: 'itemCategory' },
+      { itemDescription: 'itemDescription' },
+    ]);
+
     formData.append(
       'uploadedCoverImage',
       document.getElementById('itemCoverImage').files[0]
     );
 
-    if (document.getElementById('otherImage0').files[0]) {
-      formData.append(
-        'otherUploadedImages',
-        document.getElementById('otherImage0').files[0]
-      );
-
-      otherImagesFlag |= 0b001;
-    }
-
-    if (document.getElementById('otherImage1').files[0]) {
-      formData.append(
-        'otherUploadedImages',
-        document.getElementById('otherImage1').files[0]
-      );
-
-      otherImagesFlag |= 0b010;
-    }
-
-    if (document.getElementById('otherImage2').files[0]) {
-      formData.append(
-        'otherUploadedImages',
-        document.getElementById('otherImage2').files[0]
-      );
-
-      otherImagesFlag |= 0b100;
-    }
+    const otherImagesFlag = appendImagesToFormData(
+      formData,
+      'otherUploadedImages',
+      'otherImage0',
+      'otherImage1',
+      'otherImage2'
+    );
 
     formData.append('otherImagesFlag', otherImagesFlag);
-    // const itemOtherImages = document.getElementById(
-    //   'otherUploadedImages'
-    // ).files;
-    // for (let i = 0; i < itemOtherImages.length; i++) {
-    //   formData.append('otherUploadedImages', itemOtherImages[i]);
-    // }
 
-    for (const value of formData.values()) {
-      console.log(value);
-    }
-    for (const key of formData.keys()) {
-      console.log(key);
-    }
-
-    addRecord('items', formData);
+    addReccord('items', formData);
   });
 }
-
-// if (deleteItem) {
-//   deleteItem.addEventListener('click', (event) => {
-//     event.preventDefault();
-//     console.log('cliick');
-//     const id = deleteItem.dataset.itemId;
-//     //deleteItem(id);
-//     console.log(id);
-//   });
-// }
 
 if (updateItemForm) {
   updateItemForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const id = updateItemForm.dataset.id;
-    console.log(id);
     const formData = new FormData();
-    const changeOtherImages = [];
-    let otherImagesFlag = 0b000;
-    formData.append('itemName', document.getElementById('itemName').value);
-    formData.append('itemValue', document.getElementById('itemValue').value);
-    formData.append(
-      'itemCategory',
-      document.getElementById('itemCategory').value
-    );
-    formData.append(
-      'itemDescription',
-      document.getElementById('itemDescription').value
-    );
+    appendInputValueFields(formData, [
+      { itemName: 'itemName' },
+      { itemValue: 'itemValue' },
+      { itemCategory: 'itemCategory' },
+      { itemDescription: 'itemDescription' },
+    ]);
+
     formData.append(
       'uploadedCoverImage',
       document.getElementById('itemCoverImage').files[0]
     );
-    // const otherImg0 = document.getElementById("itemImage0").files[0];
-    // const otherImg1 = document.getElementById("itemImage1").files[0];
-    // const otherImg2 = document.getElementById("itemImage2").files[0];
-    if (document.getElementById('otherImage0').files[0]) {
-      formData.append(
-        'otherUploadedImages',
-        document.getElementById('otherImage0').files[0]
-      );
-      changeOtherImages.push(true);
-      otherImagesFlag |= 0b001;
-    }
 
-    if (document.getElementById('otherImage1').files[0]) {
-      formData.append(
-        'otherUploadedImages',
-        document.getElementById('otherImage1').files[0]
-      );
-      changeOtherImages.push(true);
-      otherImagesFlag |= 0b010;
-    }
-
-    if (document.getElementById('otherImage2').files[0]) {
-      formData.append(
-        'otherUploadedImages',
-        document.getElementById('otherImage2').files[0]
-      );
-      changeOtherImages.push(true);
-      otherImagesFlag |= 0b100;
-    }
+    const otherImagesFlag = appendImagesToFormData(
+      formData,
+      'otherUploadedImages',
+      'otherImage0',
+      'otherImage1',
+      'otherImage2'
+    );
 
     formData.append('otherImagesFlag', otherImagesFlag);
-    // const itemOtherImages = document.getElementById('otherUploadedImages').files;
-    // for (let i = 0; i < itemOtherImages.length; i++) {
-    //   formData.append('otherUploadedImages', itemOtherImages[i]);
-    // }
-
-    for (const value of formData.values()) {
-      console.log(value);
-    }
-    for (const key of formData.keys()) {
-      console.log(key);
-    }
-    console.log(otherImagesFlag);
     updateReccord('items', formData, id);
   });
 }
@@ -315,68 +291,21 @@ if (userReview) {
     event.preventDefault();
     const formData = new FormData();
     const reviewInput = document.getElementById('leftReview');
-
     formData.append('aboutItem', reviewInput.dataset.item);
     formData.append('createdFromUser', reviewInput.dataset.user);
     formData.append('review', reviewInput.value);
-    // const review = document.getElementById('leftReview').value;
-    // const aboutItem = document.getElementById('leftReview').dataset.item;
-    // const createdFromUser = document.getElementById('leftReview').dataset.user;
-    // console.log(review, aboutItem, createdFromUser);
-    // for (const value of formData.values()) {
-    //   console.log(value, typeof value);
-    // }
-    // for (const key of formData.keys()) {
-    //   console.log(key);
-    // }
-    //const data = { review, aboutItem, createdFromUser };
-    addRecord('reviews', formData);
+    addReccord('reviews', formData);
   });
 }
 
-if (selectReviews) {
-  const deactivateBtn = document.getElementById('deactivate-btn');
-  selectReviews.addEventListener('click', (event) => {
-    const deactivateCheckboxes = document.getElementsByClassName(
-      'deactivate-checkbox'
-    );
-    for (let i = 0; i < deactivateCheckboxes.length; i++) {
-      deactivateCheckboxes[i].disabled = false;
-    }
-    selectReviews.textContent = 'click to deactivate selected';
+// if (selectReviews) {
+//   selectReviews.addEventListener('click', function () {
+//     selectAndDischarge(this, 'review', 'reviews', false);
+//   });
+// }
 
-    deactivateBtn.style.setProperty('display', 'inline-block');
-    const deactivateReviewsIds = [];
-    deactivateBtn.addEventListener('click', (e) => {
-      for (let i = 0; i < deactivateCheckboxes.length; i++) {
-        if (deactivateCheckboxes[i].checked) {
-          deactivateReviewsIds.push(deactivateCheckboxes[i].id);
-        }
-      }
-      console.log(deactivateReviewsIds);
-      deactivateReviews(deactivateReviewsIds);
-    });
-  });
-}
-
-if (selectItems) {
-  const deleteItems = document.getElementById('delete-items');
-  selectItems.addEventListener('click', (event) => {
-    const itemCheckboxes = document.getElementsByClassName('item-checkbox');
-    for (let i = 0; i < itemCheckboxes.length; i++) {
-      itemCheckboxes[i].disabled = false;
-    }
-    selectItems.textContent = 'click to delete selected';
-
-    deleteItems.style.setProperty('display', 'inline-block');
-    const deletedItemsIds = [];
-    deleteItems.addEventListener('click', (e) => {
-      for (let i = 0; i < itemCheckboxes.length; i++) {
-        if (itemCheckboxes[i].checked) {
-          deletedItemsIds.push(itemCheckboxes[i].id);
-        }
-      }
-      deleteReccords('items', deletedItemsIds);
-    });
-  });
-}
+// if (selectItemsBtn) {
+//   selectItemsBtn.addEventListener('click', function () {
+//     selectAndDischarge(this, 'item', 'items', true);
+//   });
+// }

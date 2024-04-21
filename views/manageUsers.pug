@@ -2,26 +2,47 @@ extends base
 
 block content
     section.section-form
-        div.grid.grid-cols-5
-            aside.m-2.items-start.col-span-1
+        div.flex.w-auto
+            aside.m-2.items-start.hidden(class='sm:block')
                 include _sidebar
                 +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
             
-            div.col-span-2
-                button#delete-user.btn-log(type='button') click here to enable delete user
-                button#delete-final.btn-log(type='button' style='display: none;') delete selected
-                each user in users
-                    div.border-2.border-gray-700.m-1.p-1.wrap
-                        .flex 
-                            div                       
-                                p.font-semibold= user.name
-                                p= user.email
-                                p= user.role
-                            div.m-1
-                                img.w-16.h-16.border-2.border-gray-400(src=`/img/users/${user.photo}`, alt='user photo')   
+            div.flex-col.w-auto
                 
-                            input.mx-4(class='delete-checkbox' type='checkbox' disabled='true' id=`${user._id}`)
+                each user in users
+                    if user.active
+                        div.border-2.border-gray-700.wrap(class='sm:m-2 sm:p-2')
+                            .flex 
+                                div                       
+                                    p.font-semibold= user.name
+                                    p= user.email
+                                    p= user.role
+                                div.m-1
+                                    img.w-8.border-2.border-gray-400(src=`/img/users/${user.photo}`, alt='user photo' class='sm:w-16')   
+                    
+                                input.mx-1(class='users-checkbox sm:mx-4' type='checkbox' id=`${user._id}`)
+                    else 
+                        div.bg-slate-500.text-slate-300.border-2.wrap(class='sm:m-2 sm:p-2')
+                            .flex 
+                                div                       
+                                    p.font-semibold= user.name
+                                    p= user.email
+                                    p= user.role
+                                    p DEACTIVATED
+                                div.m-1
+                                    img.w-8.border-2.border-gray-400(src=`/img/users/${user.photo}`, alt='user photo' class='sm:w-16')   
+                    
+                                input.mx-1(class='users-checkbox sm:mx-4' type='checkbox' id=`${user._id}`)
+                                
 
+            div.w-auto
+                div.hidden.fixed(class='sm:inline-block')
+                    button#disable-users.btn-log.my-8(type='button') Disable selected
+                    button#enable-users.btn-log.my-8(type='button') Activate selected
+                    div
+                        button#enable-users-delete.btn-log.mx-4(type='button') Enable delete
+                        button#delete-users-final.btn-log.my-8(type='button' style='display: none;') Delete selected
+                    div#select-warrning.text-bold.text-red-500.m-8
         
             
             //- div.flex.w-auto.wrap        

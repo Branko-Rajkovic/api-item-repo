@@ -2,70 +2,50 @@ extends base
 
 block content
     section.section-form
-        div.grid.grid-cols-5
-            aside.m-2.items-start.col-span-1
+        .flex
+            aside.w-auto.m-2.items-start
                 include _sidebar
                 +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
             
-            div.col-span-2
-                button#select-reviews.btn-log(type="button") click here to deactivate
-                button#deactivate-btn.btn-log(type='button' style='display: none;') deactivate selected
+            div(class='w-1/2')
                 each review in reviews
-                    if review.reviewActive
-                        div.border-2.border-gray-700.m-1.p-1.wrap
-                            div 
-                                div.flex 
-                                    div    
-                                        if review.aboutItem                        
-                                            p= `About: ${review.aboutItem.itemName}` 
-                                        if review.createdFromUser
-                                            p= `From user: ${review.createdFromUser.name}`
-                                    div 
-                                        if review.createdFromUser 
-                                            img.w-16.h-16.rounded-full.mx-4(src=`/img/users/${review.createdFromUser.photo}`)
-                                    div.p-2.m-1
-                                        
-                                        input.mx-4(class='deactivate-checkbox' type='checkbox' disabled='true' id=`${review._id}`)
-                                p.m-1.border-t-2.border-slate-400= review.review
+                    if review.reviewActive   
+                        div.w-auto.border-2.border-gray-700.m-1.p-1.wrap
+                            div.flex.w-auto
+                                div.w-auto   
+                                    if review.aboutItem                        
+                                        span= `About: ${review.aboutItem.itemName}` 
+                                    if review.createdFromUser
+                                        span= `From user: ${review.createdFromUser.name}`
+                                div.w-auto
+                                    if review.createdFromUser 
+                                        img.w-16.h-16.rounded-full.mx-4(src=`/img/users/${review.createdFromUser.photo}`)
+                                div.w-auto.p-2.m-1
+                                    
+                                    input.mx-4(class='reviews-checkbox' type='checkbox' id=`${review._id}`)
+                            span.m-1.border-t-2.border-slate-400= review.review
                     else 
-                        div.bg-slate-500.text-slate-300.m-1.p-1.wrap
-                            div 
-                                div.flex 
-                                    div    
-                                        if review.aboutItem                        
-                                            p= `About: ${review.aboutItem.itemName}` 
-                                        if review.createdFromUser
-                                            p= `From user: ${review.createdFromUser.name}`
-                                    div 
-                                        if review.createdFromUser 
-                                            img.w-16.h-16.rounded-full.mx-4(src=`/img/users/${review.createdFromUser.photo}`)
-                                    div.p-2.m-1
-                                        input.mx-4(class='deactivate-checkbox' type='checkbox' disabled='true' id=`${review._id}`)
-                                    div 
-                                        p.text-2xl Deactivated
-                                p.m-1.border-t-2.border-slate-400= review.review
+                        div.w-auto.bg-slate-500.text-slate-300.m-1.p-1.wrap
                         
-
-
-        
-            
-            //- div.flex.w-auto.wrap        
-            //-     each item in items    
-            //-         div.form-wrapper.inline
-                    
-            //-             h3=`${item.itemName}`
-            //-             form.space-y-4.m-4
-            //-                 div
-            //-                     label.form-label(for='name') Your name
-            //-                     input#itemName.form-input(type='text', name='name', value=`${item.itemName}`)                        
-            //-                 div
-            //-                     label.form-label(for='itemValue') Value of item
-            //-                     input#itemValue.form-input(type='text', name='itemValue', value=`${item.itemValue}`)
-            //-                 div 
-            //-                     img#currentCoverImage.w-20.h-20.m-4.flex-none(src=`/img/items/${item.itemCoverImage}`, alt='item cover image')
-            //-                     label.form-label(for='coverImage') Change cover image
-            //-                     input#coverImage.form-input(type='file', name='itemCoverImage')
-            //-                 div 
-            //-                     button.btn(type='submit') Update
-                                        
-                                            
+                            div.flex.w-auto
+                                div.w-auto   
+                                    if review.aboutItem                        
+                                        span= `About: ${review.aboutItem.itemName}` 
+                                    if review.createdFromUser
+                                        span= `From user: ${review.createdFromUser.name}`
+                                div.w-auto 
+                                    if review.createdFromUser 
+                                        img.w-16.h-16.rounded-full.mx-4(src=`/img/users/${review.createdFromUser.photo}`)
+                                div.w-auto.p-2.m-1
+                                    input.mx-4(class='reviews-checkbox' type='checkbox' id=`${review._id}`)
+                                div.w-auto 
+                                    span.text-2xl Deactivated
+                            span.m-1.border-t-2.border-slate-400= review.review
+            div.w-auto
+                div.hidden.fixed(class='sm:inline-block')
+                    button#disable-reviews.btn-log.my-8(type='button') Disable selected
+                    button#enable-reviews.btn-log.my-8(type='button') Activate selected
+                    div
+                        button#enable-reviews-delete.btn-log.mx-4(type='button') Enable delete
+                        button#delete-reviews-final.btn-log.my-8(type='button' style='display: none;') Delete selected
+                    div#select-warrning.text-bold.text-red-500.m-8                                            

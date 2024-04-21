@@ -45,7 +45,7 @@ exports.signup = async (req, res, next) => {
       email: req.body.email,
       password: req.body.password,
       passwordConfirm: req.body.passwordConfirm,
-      acctivationCode: Math.floor(Math.random() * 1000),
+      acctivationCode: Math.floor(Math.random() * 10000),
       photo: req.body.photo,
     });
     console.log(newUser);
@@ -100,6 +100,9 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ email }).select('+password');
 
     if (!user || !(await user.correctPassword(password, user.password))) {
+      // return res.status(200).json({
+      //   status: 'wrong',
+      // });
       return next(new AppError('Email or password is incorrect!', 401));
     }
     createAndSendToken(user, 200, res);
@@ -215,34 +218,55 @@ exports.restrictTo = (...roles) => {
 exports.forgotPassword = async (req, res, next) => {
   try {
     //get user
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email }).select(
+      '+password'
+    );
+
     if (!user) {
       return next(new AppError('There is no user with provided email!', 404));
     }
-
+    console.log('user id', user._id);
     //generate token
-    const resetToken = user.createPasswordResetToken();
+    // const resetToken = user.createPasswordResetToken();
+    // await user.save({ validateBeforeSave: false });
+
+    //send code via email to user
+    const temporaryPassword = Math.random().toString(36).substring(2);
+    const acctivationCode = Math.floor(Math.random() * 10000);
+    //await user.save({ validateBeforeSave: false });
+    user.password = temporaryPassword;
+    user.acctivationCode = acctivationCode;
     await user.save({ validateBeforeSave: false });
+    // const updatedUser = await User.findByIdAndUpdate(
+    //   user._id,
+    //   {
+    //     acctivationCode: acctivationCode,
+    //     password: temporaryPassword,
+    //     passwordConfirm: temporaryPassword,
+    //   },
+    //   { new: true }
+    // );
+    console.log('updated user', user);
 
-    //send token via email to user
-    const resetURL = `${req.protocol}://${req.get(
-      'host'
-    )}/api/v1/users/reset-password/${resetToken}`;
-
-    const message = `Forgot your password? Please send request with your new password on following address: ${resetURL}`;
     try {
-      // await sendEmail({
-      //   email: user.email,
-      //   subject: 'Password reset token, valid only 5 min.',
-      //   message: message,
-      // });
-
-      await new Email(user, resetURL);
+      await sendEmail({
+        email: user.email,
+        subject: 'forgot password',
+        message: `welcome to open shop. Yor acctivation code is ${user.acctivationCode} and your temporary password is ${temporaryPassword} `,
+      });
 
       res.status(200).json({
         status: 'success',
-        message: 'Reset token sent to email!',
+        data: {
+          email: user.email,
+          id: user._id,
+        },
       });
+
+      // res.status(200).json({
+      //   status: 'success',
+      //   message: 'Reset token sent to email!',
+      // });
     } catch (err) {
       user.passwordResetToken = undefined;
       user.passwordResetExpires = undefined;

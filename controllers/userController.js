@@ -49,7 +49,7 @@ exports.resizeUserPhoto = async (req, res, next) => {
     console.log(req.file);
     req.file.filename = `user-${Date.now()}.jpeg`;
     await sharp(req.file.buffer)
-      .resize(200, 200)
+      .resize(100, 100)
       .toFormat('jpeg')
       .jpeg({ quality: 90 })
       .toFile(`public/img/users/${req.file.filename}`);
@@ -101,6 +101,36 @@ exports.deleteManyUsers = async (req, res, next) => {
   try {
     console.log(req.body.reccordsToDelete);
     await User.deleteMany({ _id: { $in: req.body.reccordsToDelete } });
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deacctivateManyUsers = async (req, res, next) => {
+  try {
+    console.log(req.body.reccordsToDeacctivate);
+    await User.updateMany(
+      { _id: { $in: req.body.reccordsToDeacctivate } },
+      { active: false }
+    );
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.acctivateManyUsers = async (req, res, next) => {
+  try {
+    console.log(req.body.reccordsToAcctivate);
+    await User.updateMany(
+      { _id: { $in: req.body.reccordsToAcctivate } },
+      { active: true }
+    );
     res.status(200).json({
       status: 'success',
     });

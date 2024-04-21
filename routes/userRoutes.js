@@ -34,6 +34,18 @@ router.patch(
   userController.updateMe
 );
 
+router.patch(
+  '/acctivate',
+  authController.restrictTo('user-admin', 'admin'),
+  userController.acctivateManyUsers
+);
+
+router.patch(
+  '/deacctivate',
+  authController.restrictTo('user-admin', 'admin'),
+  userController.deacctivateManyUsers
+);
+
 router.delete(
   '/delete-me',
   authController.restrictTo('user', 'user-admin', 'admin'),
@@ -50,6 +62,7 @@ router
     authController.restrictTo('user-admin', 'admin'),
     userController.createUser
   )
+
   .delete(
     authController.restrictTo('user-admin', 'admin'),
     userController.deleteUserImage,

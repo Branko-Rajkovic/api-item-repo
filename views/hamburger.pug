@@ -1,0 +1,15 @@
+//- div#hamburger-menu.fixed(class='sm:hidden')
+//-     div.flex.justify-start
+//-         button#hamburger-button.w-8.h-8.bg-amber-300(type='button')  &#x2630; 
+//-     div#hamburger-links.bg-amber-300.w-fit(style='display: none')
+//-         include _sidebar
+//-         +sidebar("sidebar", {name: "Category 1", href: "#"}, {name: "Category 2", href: "#"}, {name: "Category 3", href: "#"}, {name: "Category 4", href: "#"}, {name: "Category 5", href: "#"}, {name: "Category 6", href: "#"})
+ 
+mixin hamburger(...menuOptions)
+    div#hamburger-menu.fixed(class='sm:hidden') 
+        div.flex.justify-start
+            button#hamburger-button.w-8.h-8.bg-amber-300(type='button')  &#x2630;
+        div#hamburger-links.bg-amber-300.w-fit(style='display: none')   
+            each menuOption in menuOptions 
+                div.nav-option.w-auto
+                    a(href=menuOption.href)= menuOption.name

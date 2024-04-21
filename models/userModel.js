@@ -47,7 +47,6 @@ const userSchema = new mongoose.Schema({
   active: {
     type: Boolean,
     default: true,
-    select: false,
   },
   acctivationCode: {
     type: Number,
@@ -70,10 +69,10 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.pre(/^find/, function (next) {
-  this.find({ active: true });
-  next();
-});
+// userSchema.pre(/^find/, function (next) {
+//   this.find({ active: true });
+//   next();
+// });
 
 userSchema.methods.correctPassword = async function (
   providedPassword,

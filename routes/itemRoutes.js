@@ -14,6 +14,23 @@ router
     authController.restrictTo('item-admin', 'admin'),
     itemController.getItemsStat
   );
+
+router
+  .route('/acctivate')
+  .patch(
+    authController.protect,
+    authController.restrictTo('item-admin', 'admin'),
+    itemController.acctivateManyItems
+  );
+
+router
+  .route('/deacctivate')
+  .patch(
+    authController.protect,
+    authController.restrictTo('item-admin', 'admin'),
+    itemController.deacctivateManyItems
+  );
+
 router
   .route('/')
   .get(itemController.getAllItems)

@@ -8,12 +8,39 @@ exports.setUserAndItemIdInRequest = (req, res, next) => {
   next();
 };
 
-exports.deactivateManyReviews = async (req, res, next) => {
+exports.deleteManyReviews = async (req, res, next) => {
   try {
-    console.log(req.body.reviewsToDeactivate);
+    console.log(req.body.reccordsToDelete);
+    await Review.deleteMany({ _id: { $in: req.body.reccordsToDelete } });
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deacctivateManyReviews = async (req, res, next) => {
+  try {
+    console.log(req.body.reccordsToDeacctivate);
     await Review.updateMany(
-      { _id: { $in: req.body.reviewsToDeactivate } },
+      { _id: { $in: req.body.reccordsToDeacctivate } },
       { reviewActive: false }
+    );
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.acctivateManyReviews = async (req, res, next) => {
+  try {
+    console.log(req.body.reccordsToAcctivate);
+    await Review.updateMany(
+      { _id: { $in: req.body.reccordsToAcctivate } },
+      { reviewActive: true }
     );
     res.status(200).json({
       status: 'success',

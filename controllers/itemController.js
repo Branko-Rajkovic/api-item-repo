@@ -106,6 +106,36 @@ exports.deleteManyItems = async (req, res, next) => {
   }
 };
 
+exports.deacctivateManyItems = async (req, res, next) => {
+  try {
+    console.log(req.body.reccordsToDeacctivate);
+    await Item.updateMany(
+      { _id: { $in: req.body.reccordsToDeacctivate } },
+      { active: false }
+    );
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.acctivateManyItems = async (req, res, next) => {
+  try {
+    console.log(req.body.reccordsToAcctivate);
+    await Item.updateMany(
+      { _id: { $in: req.body.reccordsToAcctivate } },
+      { active: true }
+    );
+    res.status(200).json({
+      status: 'success',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.deleteItemsImages = async (req, res, next) => {
   try {
     const deletedItems = await Item.find({
