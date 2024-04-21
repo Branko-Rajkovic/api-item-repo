@@ -3,4 +3,4 @@
 #ignore node modules
 /node_modules
 /.cache
-/public/img/
+/public/img
